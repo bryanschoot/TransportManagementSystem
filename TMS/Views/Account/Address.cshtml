@@ -1,0 +1,121 @@
+﻿@using TMS.Model
+@model AddressViewModel
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Option</h5>
+                    <hr />
+                    <a asp-controller="Account" asp-action="Profile"><button class="btn btn-outline-dark btn-block btn-lg">Back to profile</button></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            @{
+                if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["message"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+
+                if (TempData["errormessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["errormessage"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            }
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Account</h5>
+                    <hr />
+                    @if (Model == null)
+                    {
+                         <form asp-controller="Account" asp-action="CreateAddress" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-row form-group">
+
+                                <div class="col">
+                                    <label asp-for="Country">Country:</label><br />
+                                    <input asp-for="Country" type="text" class="form-control" placeholder="Country">
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <label asp-for="City">City:</label>
+                                    <input asp-for="City" type="text" class="form-control" placeholder="City">
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col-md-8">
+                                    <label asp-for="StreetName">Streetname:</label>
+                                    <input asp-for="StreetName" type="text" class="form-control" placeholder="Streetname">
+                                    <span asp-validation-for="StreetName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-2">
+                                    <label asp-for="StreetNumber">Streetnumber:</label>
+                                    <input asp-for="StreetNumber" type="text" class="form-control" placeholder="Streetnumber">
+                                    <span asp-validation-for="StreetNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-2">
+                                    <label asp-for="ZipCode">Zipcode:</label>
+                                    <input asp-for="ZipCode" type="text" class="form-control" placeholder="Zipcode">
+                                    <span asp-validation-for="ZipCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Create</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="Account" asp-action="EditAddress" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <div class="form-row form-group">
+
+                                <div class="col">
+                                    <label asp-for="Country">Country:</label><br />
+                                    <input asp-for="Country" type="text" class="form-control" placeholder="Country">
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+                                <div class="col">
+                                    <label asp-for="City">City:</label>
+                                    <input asp-for="City" type="text" class="form-control" placeholder="City">
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col-md-8">
+                                    <label asp-for="StreetName">Streetname:</label>
+                                    <input asp-for="StreetName" type="text" class="form-control" placeholder="Streetname">
+                                    <span asp-validation-for="StreetName" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-2">
+                                    <label asp-for="StreetNumber">Streetnumber:</label>
+                                    <input asp-for="StreetNumber" type="text" class="form-control" placeholder="Streetnumber">
+                                    <span asp-validation-for="StreetNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-2">
+                                    <label asp-for="ZipCode">Zipcode:</label>
+                                    <input asp-for="ZipCode" type="text" class="form-control" placeholder="Zipcode">
+                                    <span asp-validation-for="ZipCode" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Update</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

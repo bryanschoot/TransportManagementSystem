@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,17 @@ namespace TMS
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
+
+            services.ConfigureApplicationCookie(
+                options =>
+                {
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "Account/logout";
+                    options.AccessDeniedPath = "/Account/AccesDenied";
+                });
+
             services.AddMvc();
         }
 
@@ -36,6 +48,8 @@ namespace TMS
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
 

@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using TMS.Model
+@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Addresses</h5>
+                    <hr/>
+                        @if ( Model.Addresses != null)
+                        {
+                            foreach (Address address in Model.Addresses)
+                            {
+                                <div class="row">
+                                    <div class="col">
+                                        @address.StreetName @address.StreetNumber
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        @address.ZipCode @address.City, @address.Country
+                                    </div>
+                                </div>
+                                <br/>
+                                <a asp-controller="Account" asp-action="ReadAddress" asp-route-id="@address.Id">Edit</a>
+                                <a asp-controller="Account" asp-action="DeleteAddress" asp-route-id="@address.Id">Delete</a>
+                                <hr />
+                            }
+                        }
+                    <a asp-controller="Account" asp-action="Address"><button class="btn btn-outline-dark btn-block btn-lg">New address</button></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @{
+                if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["message"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+
+                if (TempData["errormessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["errormessage"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            }
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Account</h5>
+                    <hr />
+                    <form asp-controller="Account" asp-action="EditProfile" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-group">
+                            <label asp-for="Email">Email:</label><br />
+                            <input asp-for="Email" type="email" class="form-control" placeholder="name@example.com">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber">PhoneNumeber:</label>
+                            <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="+1231234123">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-row form-group">
+                            <div class="col">
+                                <label asp-for="FirstName">Firstname:</label>
+                                <input asp-for="FirstName" type="text" class="form-control" placeholder="First name">
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col">
+                                <label asp-for="LastName">Lastname:</label>
+                                <input asp-for="LastName" type="text" class="form-control" placeholder="Last name">
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
