@@ -96,5 +96,10 @@ namespace TMS.Repository
         {
             return this.Contex.CreateAddress(address, id);
         }
+
+        public int CountAllCustomers()
+        {
+            return this.Contex.CountAllCustomers();
+        }
     }
 }

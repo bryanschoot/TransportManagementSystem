@@ -14,5 +14,6 @@ namespace TMS.Logic.Interface
         bool UpdateAddress(Address address);
         bool DeleteAddress(int id);
         bool CreateAddress(Address address, int id);
+        int CountAllCustomers();
     }
 }

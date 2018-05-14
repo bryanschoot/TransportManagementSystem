@@ -65,5 +65,10 @@ namespace TMS.Logic
         {
             return this.Repository.CreateAddress(address, id);
         }
+
+        public int CountAllCustomers()
+        {
+            return this.Repository.CountAllCustomers();
+        }
     }
 }

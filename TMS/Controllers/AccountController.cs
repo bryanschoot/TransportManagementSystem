@@ -27,7 +27,7 @@ namespace TMS.Controllers
         #region [Constructor]
         public AccountController(IConfiguration configuration)
         {
-            _factory = new Factory.Factory(configuration);
+            this._factory = new Factory.Factory(configuration);
             this._account = this._factory.AccountLogic();
         }
         #endregion
@@ -116,7 +116,7 @@ namespace TMS.Controllers
         [HttpPost]
         [Authorize]
         [Route("Profile/Update")]  
-        public async Task<IActionResult> EditProfile(ProfileViewModel model)
+        public IActionResult EditProfile(ProfileViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +144,7 @@ namespace TMS.Controllers
         [HttpPost]
         [Authorize]
         [Route("Address/Create")]
-        public async Task<IActionResult> CreateAddress(AddressViewModel model)
+        public IActionResult CreateAddress(AddressViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -162,7 +162,7 @@ namespace TMS.Controllers
         [HttpGet]
         [Authorize]
         [Route("Address")]
-        public async Task<IActionResult> Address()
+        public IActionResult Address()
         {
             return this.View("Address");
         }
@@ -189,7 +189,7 @@ namespace TMS.Controllers
         [HttpPost]
         [Authorize]
         [Route("Address/Update")]
-        public async Task<IActionResult> EditAddress(AddressViewModel model)
+        public IActionResult EditAddress(AddressViewModel model)
         {
             if (ModelState.IsValid)
             {

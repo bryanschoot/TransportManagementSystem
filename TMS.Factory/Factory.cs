@@ -33,5 +33,14 @@ namespace TMS.Factory
                 default: throw new NotImplementedException();
             }
         }
+
+        public IOrderLogic OrderLogic()
+        {
+            switch (this.context)
+            {
+                case "MSSQL": return new OrderLogic(new OrderRepository(new OrderMSSQLContext(this.connectionstring)));
+                default: throw new NotImplementedException();
+            }
+        }
     }
 }

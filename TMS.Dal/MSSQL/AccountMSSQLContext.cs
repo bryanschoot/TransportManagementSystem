@@ -57,7 +57,6 @@ namespace TMS.Dal.MSSQL
         }
         #endregion
 
-
         #region IsAccountValid
         public bool IsAccountValid(string email, string password)
         {
@@ -80,7 +79,6 @@ namespace TMS.Dal.MSSQL
 
         public bool DoesEmailExist(string email)
         {
-            Account account = null;
             this._query = "SELECT Email FROM Account WHERE Account.Email=@Email";
 
             using (SqlConnection conn = new SqlConnection(this._connectionstring))
@@ -323,6 +321,23 @@ namespace TMS.Dal.MSSQL
                     }
 
                     return false;
+                }
+            }
+        }
+
+        public int CountAllCustomers()
+        {
+            this._query = "SELECT COUNT (*) FROM Account INNER JOIN Role ON Account.RoleId = Role.Id WHERE Role.RoleName = 'Costumer';";
+            int total;
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+                    total = (Int32)cmd.ExecuteScalar();
+
+                    return total;
                 }
             }
         }

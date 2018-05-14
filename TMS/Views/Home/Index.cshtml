@@ -42,15 +42,15 @@
         <div class="row py-5 text-center">
             <div class="col-md-4">
                 <img src="~/images/frontal-truck.svg" alt="" height="75" width="75">
-                <b>74 Vrachtwagens.</b>
+                <b>@ViewData["trucks"]</b> Vrachtwagens!
             </div>
             <div class="col-md-4">
                 <img src="~/images/package.svg" alt="" height="75" width="75">
-                <b>124 Afgeronde orders!</b>
+                <b>@ViewData["orders"]</b> Orders!
             </div>
             <div class="col-md-4">
                 <img src="~/images/human-resources.svg" alt="" height="75" width="75">
-                <b>24 Opdrachtgever</b>
+                <b>@ViewData["costumer"]</b> Opdrachtgever!
             </div>
         </div>
     </div>
