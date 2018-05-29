@@ -8,10 +8,12 @@ namespace TMS.Logic
     public class AccountLogic : IAccountLogic
     {
         private IAccountRepository Repository { get; }
+        private HashLogic Hash;
 
         public AccountLogic(IAccountRepository repository)
         {
             this.Repository = repository;
+            this.Hash = new HashLogic();
         }
 
         public bool IsAccountValid(string email, string password)
@@ -69,6 +71,12 @@ namespace TMS.Logic
         public int CountAllCustomers()
         {
             return this.Repository.CountAllCustomers();
+        }
+
+        public string CreateHash(string tobehashed)
+        {
+            string hash = Hash.CreateHash(tobehashed);
+            return hash;
         }
     }
 }

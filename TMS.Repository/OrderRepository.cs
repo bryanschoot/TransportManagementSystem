@@ -22,7 +22,7 @@ namespace TMS.Repository
 
         public Order GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return this.Context.GetById(id);
         }
 
         public bool Exists(Order entity)

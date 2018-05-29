@@ -11,7 +11,7 @@ namespace TMS.Dal.MSSQL
 {
     public class AccountMSSQLContext : IAccountContext
     {
-        private string _connectionstring;
+        private readonly string _connectionstring;
         private string _query;
         private string _procedure;
 

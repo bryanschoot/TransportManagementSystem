@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.SqlClient;
 using TMS.Dal.Interface;
 using TMS.Model;
 
@@ -7,6 +9,8 @@ namespace TMS.Dal.MSSQL
     public class OrderMSSQLContext : IOrderContext
     {
         private string _connestionstring;
+        private string query;
+        private string procedure;
 
         public OrderMSSQLContext(string connestionstring)
         {
@@ -20,7 +24,29 @@ namespace TMS.Dal.MSSQL
 
         public Order GetById(int id)
         {
-            throw new System.NotImplementedException();
+            Order order = null;
+            this.query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id WHERE Account.Id=@Id";
+
+            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this.query, conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    foreach (DbDataRecord record in cmd.ExecuteReader())
+                    {
+                        order = new Order
+                        {
+                            Id = record.GetInt32(record.GetOrdinal("Id")),
+                            Description = record.GetString(record.GetOrdinal("Description")),
+                            DateTime = record.GetDateTime(record.GetOrdinal("Deliverdate")),
+                        };
+                    }
+
+                    return order;
+                }
+            }
         }
 
         public bool Exists(Order entity)

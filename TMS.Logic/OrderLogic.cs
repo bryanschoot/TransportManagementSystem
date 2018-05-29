@@ -1,4 +1,5 @@
 ﻿using TMS.Logic.Interface;
+using TMS.Model;
 using TMS.Repositroy.Interface;
 
 namespace TMS.Logic
@@ -10,6 +11,11 @@ namespace TMS.Logic
         public OrderLogic(IOrderRepository repository)
         {
             this.Repository = repository;
+        }
+
+        public Order GetAllOrdersById(int id)
+        {
+            return this.Repository.GetById(id);
         }
     }
 }
