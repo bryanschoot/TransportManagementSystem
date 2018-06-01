@@ -39,6 +39,19 @@ namespace TMS.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [HttpPost]
+        public IActionResult Mail(MailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return PartialView(model);
+            }
+        }
+
         public IActionResult News()
         {
             return View();

@@ -19,7 +19,7 @@ function launchOnStart(url) {
     fetch(req)
         .then((resp) => resp.json())
         .then((data) => {
-                var container = $('<div ></div>');
+                var container = $('<div></div>');
                 console.log(data.articles);
                 data.articles.forEach(function (article) {
                     container.append($(

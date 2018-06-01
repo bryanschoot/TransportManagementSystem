@@ -70,17 +70,7 @@
             </div>
             <div class="col-md-6 bg-red py-5 text-white">
                 <h2 class="text-center">Vraag een offerte aan!</h2>
-                <form class="mx-5">
-                    <div class="form-group my-4">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                    </div>
-                    <div class="form-group my-4">
-                        <label for="comment">Opmerking</label>
-                        <textarea class="form-control" id="comment" rows="3"></textarea>
-                    </div>
-                    <button type="button" class="btn btn-outline-dark btn-block btn-lg">Vraag aan!</button>
-                </form>
+                @Html.Partial("Mail")
             </div>
         </div>
     </div>
