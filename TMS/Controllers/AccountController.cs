@@ -40,7 +40,6 @@ namespace TMS.Controllers
         public IActionResult DoesEmailExist(string email)
         {
             bool exist = this._account.DoesEmailExist(email);
-
             if (!exist)
             {
                 return Json(data: $"*The email: {email} does not exist.");
@@ -122,7 +121,7 @@ namespace TMS.Controllers
         [Route("Profile")]
         public IActionResult Profile()
         {
-            //Get user id from cookies
+            //get account id from cookies
             int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
             Account account = this._account.GetAccountById(id);
@@ -144,10 +143,12 @@ namespace TMS.Controllers
             if (ModelState.IsValid)
             {
                 Account checkaccount = this._account.GetAccountById(model.Id);
+                //Checks if the userinput has changed
                 bool changed = checkaccount.Email != model.Email || checkaccount.FirstName != model.FirstName || checkaccount.LastName != model.LastName || checkaccount.PhoneNumber != model.PhoneNumber;
 
                 if (changed)
                 {
+                    //copies viewmodel to model
                     Account account = model.CopyTo();
                     this._account.UpdateAccount(account);
 
@@ -174,9 +175,10 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Get user id from cookies
+                //get account id from cookies
                 int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
+                //copies viewmodel to model
                 Address address = model.CopyTo();
                 this._account.CreateAddress(address, id);
 
@@ -198,15 +200,20 @@ namespace TMS.Controllers
             return this.View("Address");
         }
 
+        /// <summary>
+        /// Get address by id
+        /// </summary>
+        /// <param name="id">id from the selected address</param>
+        /// <returns></returns>
         [HttpGet]
         [Authorize]
         [Route("Address/{id}")]
         public IActionResult ReadAddress(int id)
         {
+            //get account id from cookies
             int accountid = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
             Address address = this._account.GetAddressById(id, accountid);
-
             if (address != null)
             {
                 AddressViewModel model = new AddressViewModel(address);
@@ -217,6 +224,11 @@ namespace TMS.Controllers
             return RedirectToAction("Profile", "Account");
         }
 
+        /// <summary>
+        /// Post the Addressviemodel to this action to update the account
+        /// </summary>
+        /// <param name="model">Addressviewmodel is needed to update the address of the user</param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [Route("Address/Update")]
@@ -224,13 +236,16 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                //get account id from cookies
                 int accountid = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
                 Address checkAddress = this._account.GetAddressById(model.Id, accountid);
+                //Check if userinput has changes
                 bool changed = checkAddress.Country != model.Country || checkAddress.City != model.City || checkAddress.StreetName != model.StreetName || checkAddress.StreetNumber != model.StreetNumber || checkAddress.ZipCode != model.ZipCode;
 
                 if (changed)
                 {
+                    //copies viewmodel to model
                     Address address = model.CopyTo();
 
                     this._account.UpdateAddress(address);
@@ -245,11 +260,17 @@ namespace TMS.Controllers
             return this.View("Address", model);
         }
 
+        /// <summary>
+        /// Delete address by id
+        /// </summary>
+        /// <param name="id">Deleted address id</param>
+        /// <returns>Returns you to given action (view)</returns>
         [HttpGet]
         [Authorize]
         [Route("DeleteAddress/{id}")]
         public IActionResult DeleteAddress(int id)
         {
+            //get account id from cookies
             int accountid = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
             Address address = this._account.GetAddressById(id, accountid);
