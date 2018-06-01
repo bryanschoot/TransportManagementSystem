@@ -19,20 +19,24 @@ namespace TMS.Controllers
     [Route("Account")]
     public class AccountController : Controller
     {
-        #region [Fields]
         private Factory.Factory _factory;
         private IAccountLogic _account = null;
-        #endregion
 
-        #region [Constructor]
+        /// <summary>
+        /// Read the configuration file and creates the factory.
+        /// </summary>
+        /// <param name="configuration">Needed to read the appsettings.json connectionstring</param>
         public AccountController(IConfiguration configuration)
         {
             this._factory = new Factory.Factory(configuration);
             this._account = this._factory.AccountLogic();
         }
-        #endregion
 
-        #region [JSON]
+        /// <summary>
+        /// Checks if email exist
+        /// </summary>
+        /// <param name="email">Email from form</param>
+        /// <returns></returns>
         public IActionResult DoesEmailExist(string email)
         {
             bool exist = this._account.DoesEmailExist(email);
@@ -43,9 +47,11 @@ namespace TMS.Controllers
             }
             return Json(data: true);
         }
-        #endregion
 
-        #region Login
+        /// <summary>
+        /// Get request to login page
+        /// </summary>
+        /// <returns>Login page</returns>
         [HttpGet]
         [Route("Login")]
         public IActionResult Login()
@@ -53,6 +59,11 @@ namespace TMS.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Post to the login function
+        /// </summary>
+        /// <param name="model">Expecting a loginviewmodel</param>
+        /// <returns>If login true home page, Else login page with error messages from Loginviewmodel</returns>
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginViewModel model)
@@ -63,6 +74,7 @@ namespace TMS.Controllers
                 {
                     Account account = this._account.GetAccountByEmail(model.Email);
                     
+                    //Set cookies
                     var claims = new List<Claim>
                     {
                         new Claim("Id", account.Id.ToString()),
@@ -82,14 +94,17 @@ namespace TMS.Controllers
             }
             return View(model);
         }
-        #endregion
 
-        #region Logout
+        /// <summary>
+        /// Login action
+        /// </summary>
+        /// <returns>You to the login page</returns>
         [HttpGet]
         [Authorize]
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
+            //Unset cookies
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -97,14 +112,17 @@ namespace TMS.Controllers
 
             return RedirectToAction("Login");
         }
-        #endregion
 
-        #region Profile
+        /// <summary>
+        /// Get profile data
+        /// </summary>
+        /// <returns>Profile page using profileviewmodel</returns>
         [HttpGet]
         [Authorize]
         [Route("Profile")]
         public IActionResult Profile()
         {
+            //Get user id from cookies
             int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
             Account account = this._account.GetAccountById(id);
@@ -113,6 +131,11 @@ namespace TMS.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Post to the update action
+        /// </summary>
+        /// <param name="model">Expects Profileviewmodel</param>
+        /// <returns>Shows you the account page certain messages</returns>
         [HttpPost]
         [Authorize]
         [Route("Profile/Update")]  
@@ -138,9 +161,12 @@ namespace TMS.Controllers
 
             return View("Profile", model);
         }
-        #endregion
 
-        #region Address
+        /// <summary>
+        /// Create a new address
+        /// </summary>
+        /// <param name="model">Requiress addressviewmodel</param>
+        /// <returns>Shows you the account page with messages or shows the form with errors</returns>
         [HttpPost]
         [Authorize]
         [Route("Address/Create")]
@@ -148,6 +174,7 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Get user id from cookies
                 int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
                 Address address = model.CopyTo();
@@ -159,6 +186,10 @@ namespace TMS.Controllers
             return this.View("Address", model);
         }
 
+        /// <summary>
+        /// Get the address page
+        /// </summary>
+        /// <returns>the address page</returns>
         [HttpGet]
         [Authorize]
         [Route("Address")]
@@ -239,6 +270,5 @@ namespace TMS.Controllers
             TempData["errormessage"] = "You dont have permission to do this!";
             return RedirectToAction("Profile", "Account");
         }
-        #endregion
     }
 }

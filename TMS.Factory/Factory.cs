@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using TMS.Dal.Interface;
+using TMS.Dal.MEMORY;
 using TMS.Dal.MSSQL;
 using TMS.Logic;
 using TMS.Logic.Interface;
@@ -30,6 +32,8 @@ namespace TMS.Factory
             switch (this.context)
             {
                 case "MSSQL": return new AccountLogic(new AccountRepository(new AccountMSSQLContext(this.connectionstring)));
+                case "LOCAL": return new AccountLogic(new AccountRepository(new AccountMSSQLContext(this.connectionstring)));
+                case "MEMORY": return new AccountLogic(new AccountRepository(new AccountMemoryContext()));
                 default: throw new NotImplementedException();
             }
         }
@@ -39,6 +43,8 @@ namespace TMS.Factory
             switch (this.context)
             {
                 case "MSSQL": return new OrderLogic(new OrderRepository(new OrderMSSQLContext(this.connectionstring)));
+                case "LOCAL": return new OrderLogic(new OrderRepository(new OrderMSSQLContext(this.connectionstring)));
+                case "MEMORY": return new OrderLogic(new OrderRepository(new OrderMemoryContext()));
                 default: throw new NotImplementedException();
             }
         }
