@@ -53,10 +53,15 @@ namespace TMS.Dal.MSSQL
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Get all orders from a account
+        /// </summary>
+        /// <param name="id">Account id from logged in user</param>
+        /// <returns></returns>
         public List<Order> GetAllOrdersById(int id)
         {
             List<Order> orders = new List<Order>();
-            this.query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id WHERE Account.Id=@Id";
+            this.query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate, Address.Country, Address.City, Address.StreetName, Address.StreetNumber, Address.ZipCode FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id INNER JOIN Address ON [Order].AddressId = Address.id WHERE Account.Id=@Id";
 
             using (SqlConnection conn = new SqlConnection(this._connestionstring))
             {
@@ -72,6 +77,14 @@ namespace TMS.Dal.MSSQL
                             Id = record.GetInt32(record.GetOrdinal("Id")),
                             Description = record.GetString(record.GetOrdinal("Description")),
                             DateTime = record.GetDateTime(record.GetOrdinal("Deliverdate")),
+                            Address = new Address
+                            {
+                                Country = record.GetString(record.GetOrdinal("Country")),
+                                City = record.GetString(record.GetOrdinal("City")),
+                                StreetName = record.GetString(record.GetOrdinal("StreetName")),
+                                StreetNumber = record.GetString(record.GetOrdinal("StreetNumber")),
+                                ZipCode = record.GetString(record.GetOrdinal("ZipCode")),
+                            }
                         };
                         orders.Add(order);
                     }

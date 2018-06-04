@@ -24,24 +24,29 @@ namespace TMS.Controllers
         }
         
         [HttpGet]
-        public IActionResult Order()
+        public IActionResult Orders()
         {
             int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
-            List<Order> order = this._order.GetAllOrdersById(id);
-            OrderViewModel model = new OrderViewModel(order);
+            List<Order> order = new List<Order>(this._order.GetAllOrdersById(id));
+//            OrderViewModel model = new OrderViewModel(order);
 
+            return View(order);
+        }
+
+        [HttpGet]
+        public IActionResult Order()
+        {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult CreateOrder()
+        public IActionResult CreateOrder(OrderViewModel model)
         {
             if (ModelState.IsValid)
             {
                 
             }
-            return RedirectToAction();
+            return View("Order", model);
         }
     }
 }

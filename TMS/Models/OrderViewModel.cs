@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using TMS.Model;
 
 namespace TMS.Models
@@ -15,11 +17,66 @@ namespace TMS.Models
 
         }
 
-        //Construtor for creating or editing a order
-
         //List of all orders
         public List<Order> Orders { get; set; }
 
-        //Properties for form
+        //Construtor for creating or editing a order
+        public OrderViewModel(Order order)
+        {
+            OrderId = order.Id;
+            Description = order.Description;
+            DateTime = order.DateTime;
+            Length = order.Length;
+            Width = order.Width;
+            Height = order.Height;
+            Weight = order.Weight;
+            AddressId = order.Address.Id;
+            Country = order.Address.Country;
+            City = order.Address.City;
+            StreetName = order.Address.StreetName;
+            StreetNumber = order.Address.StreetNumber;
+            ZipCode = order.Address.ZipCode;
+        }
+
+        //Order details
+        public int OrderId { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
+        public DateTime DateTime { get; set; }
+
+        [Required]
+        public double Length { get; set; }
+
+        [Required]
+        public double Width { get; set; }
+
+        [Required]
+        public double Height { get; set; }
+
+        [Required]
+        public double Weight { get; set; }
+
+        //Address details
+        public int AddressId { get; set; }
+
+        [Required]
+        public string Country { get; set; }
+
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public string StreetName { get; set; }
+
+        [Required]
+        public string StreetNumber { get; set; }
+
+        [Required]
+        public string ZipCode { get; set; }
+
+
     }
 }

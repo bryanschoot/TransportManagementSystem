@@ -56,7 +56,12 @@ namespace TMS.Dal.MSSQL
             throw new System.NotImplementedException();
         }
         #endregion
-
+        /// <summary>
+        /// Check if the account is valid compares it a excisting account
+        /// </summary>
+        /// <param name="email">Email from form (User sbmit)</param>
+        /// <param name="password">Password from form (User sbmit)</param>
+        /// <returns></returns>
         #region IsAccountValid
         public bool IsAccountValid(string email, string password)
         {
@@ -130,6 +135,11 @@ namespace TMS.Dal.MSSQL
         #endregion
 
         #region GetAccountById
+        /// <summary>
+        /// Get all user data with 0,1 or more addresses
+        /// </summary>
+        /// <param name="id">id of the user</param>
+        /// <returns></returns>
         public Account GetAccountById(int id)
         {
             Account account = null;
@@ -188,7 +198,11 @@ namespace TMS.Dal.MSSQL
         }
         #endregion
 
-
+        /// <summary>
+        /// Update a user account
+        /// </summary>
+        /// <param name="account">Model account</param>
+        /// <returns>A true of false based on update query</returns>
         public bool UpdateAccount(Account account)
         {
             this._query = "UPDATE Account SET Account.Email=@Email, Account.FirstName=@FirstName, Account.LastName=@LastName, Account.PhoneNumber=@PhoneNumber WHERE Account.Id=@Id";
@@ -214,6 +228,11 @@ namespace TMS.Dal.MSSQL
             }
         }
 
+        /// <summary>
+        /// Get address by id used to edit a selected address
+        /// </summary>
+        /// <param name="id">Id of the selected address</param>
+        /// <returns>The selected address properties</returns>
         public Address GetAddressById(int id)
         {
             Address address = null;
@@ -249,6 +268,11 @@ namespace TMS.Dal.MSSQL
             }
         }
 
+        /// <summary>
+        /// Update address
+        /// </summary>
+        /// <param name="address">Model address</param>
+        /// <returns>true or false based on update query</returns>
         public bool UpdateAddress(Address address)
         {
             this._query = "UPDATE Address SET Address.Country=@Country, Address.City=@City, Address.StreetName=@Streetname, Address.StreetNumber=@Streetnumber, Address.ZipCode=@Zipcode  WHERE Address.Id=@Id";
@@ -275,6 +299,11 @@ namespace TMS.Dal.MSSQL
             }
         }
 
+        /// <summary>
+        /// Delete address by id
+        /// </summary>
+        /// <param name="id">Id of the selected address</param>
+        /// <returns>true or false based on delete query</returns>
         public bool DeleteAddress(int id)
         {
             this._query = "DELETE FROM Address WHERE Address.Id=@Id; ";
@@ -297,6 +326,12 @@ namespace TMS.Dal.MSSQL
             }
         }
 
+        /// <summary>
+        /// Create a address for logged in account
+        /// </summary>
+        /// <param name="address">Model address</param>
+        /// <param name="id">of the user</param>
+        /// <returns>true or false based on insert query</returns>
         public bool CreateAddress(Address address, int id)
         {
             this._query = "INSERT INTO Address (Country, City, StreetName, StreetNumber, ZipCode, AccountId) VALUES (@Country, @City, @StreetName, @StreetNumber, @ZipCode, @AccoutId);";
@@ -325,6 +360,10 @@ namespace TMS.Dal.MSSQL
             }
         }
 
+        /// <summary>
+        /// Count costumer to show on the homepage
+        /// </summary>
+        /// <returns>int of all costumers</returns>
         public int CountAllCustomers()
         {
             this._query = "SELECT COUNT (*) FROM Account INNER JOIN Role ON Account.RoleId = Role.Id WHERE Role.RoleName = 'Costumer';";
