@@ -43,5 +43,10 @@ namespace TMS.Dal.MEMORY
         {
             throw new System.NotImplementedException();
         }
+
+        List<Order> IOrderContext.GetAllOrdersById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

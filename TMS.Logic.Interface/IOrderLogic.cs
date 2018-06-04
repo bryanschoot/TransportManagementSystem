@@ -1,9 +1,10 @@
-﻿using TMS.Model;
+﻿using System.Collections.Generic;
+using TMS.Model;
 
 namespace TMS.Logic.Interface
 {
     public interface IOrderLogic
     {
-        Order GetAllOrdersById(int id);
+        List<Order> GetAllOrdersById(int id);
     }
 }

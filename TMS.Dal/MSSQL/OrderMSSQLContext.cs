@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using TMS.Dal.Interface;
@@ -24,29 +25,7 @@ namespace TMS.Dal.MSSQL
 
         public Order GetById(int id)
         {
-            Order order = null;
-            this.query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id WHERE Account.Id=@Id";
-
-            using (SqlConnection conn = new SqlConnection(this._connestionstring))
-            {
-                using (SqlCommand cmd = new SqlCommand(this.query, conn))
-                {
-                    conn.Open();
-                    cmd.Parameters.AddWithValue("@Id", id);
-
-                    foreach (DbDataRecord record in cmd.ExecuteReader())
-                    {
-                        order = new Order
-                        {
-                            Id = record.GetInt32(record.GetOrdinal("Id")),
-                            Description = record.GetString(record.GetOrdinal("Description")),
-                            DateTime = record.GetDateTime(record.GetOrdinal("Deliverdate")),
-                        };
-                    }
-
-                    return order;
-                }
-            }
+            throw new NotImplementedException();
         }
 
         public bool Exists(Order entity)
@@ -72,6 +51,34 @@ namespace TMS.Dal.MSSQL
         public int Count(Order entity)
         {
             throw new System.NotImplementedException();
+        }
+
+        public List<Order> GetAllOrdersById(int id)
+        {
+            List<Order> orders = new List<Order>();
+            this.query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id WHERE Account.Id=@Id";
+
+            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this.query, conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    foreach (DbDataRecord record in cmd.ExecuteReader())
+                    {
+                        Order order = new Order
+                        {
+                            Id = record.GetInt32(record.GetOrdinal("Id")),
+                            Description = record.GetString(record.GetOrdinal("Description")),
+                            DateTime = record.GetDateTime(record.GetOrdinal("Deliverdate")),
+                        };
+                        orders.Add(order);
+                    }
+
+                    return orders;
+                }
+            }
         }
     }
 }

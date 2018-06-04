@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMS.Model;
 
 namespace TMS.Models
@@ -7,35 +8,18 @@ namespace TMS.Models
     {
         public OrderViewModel() { }
 
-        public OrderViewModel(Order order)
+        //Constructor for getting all orders
+        public OrderViewModel(List<Order> order)
         {
-            Id = order.Id;
-            Description = order.Description;
-            DateTime = order.DateTime;
-            Length = order.Length;
-            Width = order.Width;
-            Height = order.Height;
-            Weight = order.Weight;
-            Address = order.Address;
-            Account = order.Account;
+            Orders = order;
+
         }
 
-        public int Id { get; set; }
+        //Construtor for creating or editing a order
 
-        public string Description { get; set; }
+        //List of all orders
+        public List<Order> Orders { get; set; }
 
-        public DateTime DateTime { get; set; }
-
-        public double Length { get; set; }
-
-        public double Width { get; set; }
-
-        public double Height { get; set; }
-
-        public double Weight { get; set; }
-
-        public Address Address { get; set; }
-
-        public Account Account { get; set; }
+        //Properties for form
     }
 }

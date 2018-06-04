@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMS.Dal.Interface;
 using TMS.Model;
 using TMS.Repositroy.Interface;
@@ -22,7 +23,7 @@ namespace TMS.Repository
 
         public Order GetById(int id)
         {
-            return this.Context.GetById(id);
+            throw new NotImplementedException();
         }
 
         public bool Exists(Order entity)
@@ -49,6 +50,12 @@ namespace TMS.Repository
         {
             throw new System.NotImplementedException();
         }
+
+        public List<Order> GetAllOrdersById(int id)
+        {
+            return this.Context.GetAllOrdersById(id);
+        }
+
         #endregion
     }
 }

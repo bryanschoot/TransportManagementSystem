@@ -28,15 +28,20 @@ namespace TMS.Controllers
         {
             int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
 
-            Order order = this._order.GetAllOrdersById(id);
+            List<Order> order = this._order.GetAllOrdersById(id);
             OrderViewModel model = new OrderViewModel(order);
 
+            return View();
+        }
 
-            if (order == null)
+        [HttpPost]
+        public IActionResult CreateOrder()
+        {
+            if (ModelState.IsValid)
             {
-                TempData["Error"] = "You do not have any orders yet.";
+                
             }
-            return View(model);
+            return RedirectToAction();
         }
     }
 }

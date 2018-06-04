@@ -4,11 +4,61 @@
     ViewData["Title"] = "Orders";
 }
 
-<div class="container">
+<div class="container my-5">
     <div class="row">
-        <div class="col">
-            @{
-                
+        <div class="col-md-4">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Orders</h5>
+                    <hr/>
+                    <div class="row">
+                        <div class="col">
+                            <a asp-controller="Order" asp-action="CreateOrder">New order</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @if (Model.Orders == null)
+            {
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Ordernr</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Streetname</th>
+                        <th scope="col">Streetnumber</th>
+                        <th scope="col">Zip</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @{
+                        foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <th scope="row">@order.Id</th>
+                                <td>@order.Description</td>
+                                <td>@order.Address.City</td>
+                                <td>@order.Address.StreetName</td>
+                                <td>@order.Address.StreetNumber</td>
+                                <td>@order.Address.ZipCode</td>
+                                <td>Otto</td>
+                            </tr>
+                        }
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    You have zero orders.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             }
         </div>
     </div>

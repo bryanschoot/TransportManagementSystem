@@ -1,4 +1,5 @@
-﻿using TMS.Logic.Interface;
+﻿using System.Collections.Generic;
+using TMS.Logic.Interface;
 using TMS.Model;
 using TMS.Repositroy.Interface;
 
@@ -12,10 +13,9 @@ namespace TMS.Logic
         {
             this.Repository = repository;
         }
-
-        public Order GetAllOrdersById(int id)
+        public List<Order> GetAllOrdersById(int id)
         {
-            return this.Repository.GetById(id);
+            return this.Repository.GetAllOrdersById(id);
         }
     }
 }
