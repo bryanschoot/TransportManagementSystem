@@ -31,7 +31,7 @@ namespace TMS.Repository
             throw new NotImplementedException();
         }
 
-        public bool Insert(Model.Account entity)
+        public bool Insert(Model.Account entity, int id)
         {
             throw new NotImplementedException();
         }

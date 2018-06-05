@@ -25,6 +25,11 @@
                             <form asp-controller="Order" asp-action="CreateOrder">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-group">
+                                    <label asp-for="DeliverDate">Deliverdate:</label>
+                                    <input asp-for="DeliverDate" class="form-control" id="datepicker"/>
+                                    <span asp-validation-for="DeliverDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
                                     <label asp-for="Description">Description:</label>
                                     <textarea asp-for="Description" class="form-control" rows="3" placeholder="Description..."></textarea>
                                     <span asp-validation-for="Description" class="text-danger"></span>
@@ -90,10 +95,46 @@
                         else
                         {
                             <h5 class="card-title text-center">Edit order</h5>
+                            <hr/>
                             <form asp-controller="Order" asp-action="CreateOrder">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="DeliverDate">Deliverdate:</label>
+                                    <input asp-for="DeliverDate" class="form-control" id="datepicker" />
+                                    <span asp-validation-for="DeliverDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Description">Description:</label>
+                                    <textarea asp-for="Description" class="form-control" rows="3" placeholder="Description..."></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
                                 <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="Length">Length in cm:</label>
+                                        <input asp-for="Length" type="text" class="form-control" placeholder="Length">
+                                        <span asp-validation-for="Length" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Width">Width in cm:</label>
+                                        <input asp-for="Width" type="text" class="form-control" placeholder="Width">
+                                        <span asp-validation-for="Width" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="Height">Height in cm:</label>
+                                        <input asp-for="Height" type="text" class="form-control" placeholder="Height">
+                                        <span asp-validation-for="Height" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Weight">Weight in kg:</label>
+                                        <input asp-for="Weight" type="text" class="form-control" placeholder="Weight">
+                                        <span asp-validation-for="Weight" class="text-danger"></span>
+                                    </div>
+                                </div>
 
+                                <hr />
+                                <div class="form-row form-group">
                                     <div class="col">
                                         <label asp-for="Country">Country:</label><br />
                                         <input asp-for="Country" type="text" class="form-control" placeholder="Country">
@@ -122,13 +163,18 @@
                                         <span asp-validation-for="ZipCode" class="text-danger"></span>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Update</button>
+                                <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Create</button>
                             </form>
                         }
                     }
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $('#datepicker').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+</script>

@@ -23,7 +23,7 @@ namespace TMS.Dal.MEMORY
             throw new System.NotImplementedException();
         }
 
-        public bool Insert(Account entity)
+        public bool Insert(Account entity, int id)
         {
             throw new System.NotImplementedException();
         }

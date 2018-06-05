@@ -24,7 +24,7 @@ namespace TMS.Dal.MEMORY
             throw new System.NotImplementedException();
         }
 
-        public bool Insert(Order entity)
+        public bool Insert(Order entity, int id)
         {
             throw new System.NotImplementedException();
         }

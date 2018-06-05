@@ -8,7 +8,7 @@ namespace TMS.Dal.Interface
         IEnumerable<T> All();
         T GetById(int id);
         bool Exists(T entity);
-        bool Insert(T entity);
+        bool Insert(T entity, int id);
         bool Update(T entity);
         bool Delete(T entity);
         int Count(T entity);

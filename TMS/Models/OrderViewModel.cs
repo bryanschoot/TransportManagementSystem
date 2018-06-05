@@ -14,7 +14,6 @@ namespace TMS.Models
         public OrderViewModel(List<Order> order)
         {
             Orders = order;
-
         }
 
         //List of all orders
@@ -25,7 +24,8 @@ namespace TMS.Models
         {
             OrderId = order.Id;
             Description = order.Description;
-            DateTime = order.DateTime;
+            OrderDate = order.OrderDate;
+            DeliverDate = order.DeliverDate;
             Length = order.Length;
             Width = order.Width;
             Height = order.Height;
@@ -45,7 +45,9 @@ namespace TMS.Models
         public string Description { get; set; }
 
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime DeliverDate { get; set; }
+
+        public DateTime OrderDate { get; set; }
 
         [Required]
         public double Length { get; set; }
@@ -78,5 +80,30 @@ namespace TMS.Models
         public string ZipCode { get; set; }
 
 
+        public Order CopyTo()
+        {
+            Order order = new Order
+            {
+                Id = this.OrderId,
+                Description = this.Description,
+                DeliverDate = this.DeliverDate,
+                OrderDate = this.OrderDate,
+                Length = this.Length,
+                Width = this.Width,
+                Height = this.Height,
+                Weight = this.Weight,
+
+                Address = new Address
+                {
+                    Id = this.AddressId,
+                    Country = this.Country,
+                    City = this.City,
+                    StreetName = this.StreetName,
+                    StreetNumber = this.StreetNumber,
+                    ZipCode = this.ZipCode,
+                },
+            };
+            return order;
+        }
     }
 }

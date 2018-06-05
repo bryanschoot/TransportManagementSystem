@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using TMS.Dal.Interface;
@@ -33,9 +34,50 @@ namespace TMS.Dal.MSSQL
             throw new System.NotImplementedException();
         }
 
-        public bool Insert(Order entity)
+        /// <summary>
+        /// Insert a new order
+        /// </summary>
+        /// <param name="entity">Order model</param>
+        /// <returns>true or false based on inserted.</returns>
+        public bool Insert(Order entity, int accountid)
         {
-            throw new System.NotImplementedException();
+            this.procedure = "spCreateOrder";
+
+            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this.procedure, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@AccountId", accountid);
+                    cmd.Parameters.AddWithValue("@Description", entity.Description);
+                    cmd.Parameters.AddWithValue("@DeliverDate", entity.DeliverDate.ToString("yyyy-MM-dd hh:mm:ss"));
+                    cmd.Parameters.AddWithValue("@Length", entity.Length);
+                    cmd.Parameters.AddWithValue("@Width", entity.Width);
+                    cmd.Parameters.AddWithValue("@Height", entity.Height);
+                    cmd.Parameters.AddWithValue("@Weight", entity.Weight);
+                    cmd.Parameters.AddWithValue("@Country", entity.Address.Country);
+                    cmd.Parameters.AddWithValue("@City", entity.Address.City);
+                    cmd.Parameters.AddWithValue("@StreetName", entity.Address.StreetName);
+                    cmd.Parameters.AddWithValue("@StreetNumber", entity.Address.StreetNumber);
+                    cmd.Parameters.AddWithValue("@ZipCode", entity.Address.ZipCode);
+
+                    try
+                    {
+                        conn.Open();
+                        if (Math.Abs(cmd.ExecuteNonQuery()) > 0)
+                        {
+                            return true;
+                        }
+                        return false;
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                   
+                }
+            }
         }
 
         public bool Update(Order entity)
@@ -76,7 +118,7 @@ namespace TMS.Dal.MSSQL
                         {
                             Id = record.GetInt32(record.GetOrdinal("Id")),
                             Description = record.GetString(record.GetOrdinal("Description")),
-                            DateTime = record.GetDateTime(record.GetOrdinal("Deliverdate")),
+                            DeliverDate = record.GetDateTime(record.GetOrdinal("Deliverdate")),
                             Address = new Address
                             {
                                 Country = record.GetString(record.GetOrdinal("Country")),

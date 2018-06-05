@@ -8,24 +8,27 @@
         {
         }
 
-        public Order(int id, string description, DateTime dateTime, double length, double width, double height, double weight, Address address, Account account)
+        public Order(int id, string description, DateTime deliverDate, DateTime orderDate, double length, double width, double height, double weight, Address address, Account account)
         {
-            this.Id = id;
-            this.Description = description;
-            this.DateTime = dateTime;
-            this.Length = length;
-            this.Width = width;
-            this.Height = height;
-            this.Weight = weight;
-            this.Address = address;
-            this.Account = account;
+            Id = id;
+            Description = description;
+            DeliverDate = deliverDate;
+            OrderDate = orderDate;
+            Length = length;
+            Width = width;
+            Height = height;
+            Weight = weight;
+            Address = address;
+            Account = account;
         }
 
         public int Id { get; set; }
 
         public string Description { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTime DeliverDate { get; set; }
+
+        public DateTime OrderDate { get; set; }
 
         public double Length { get; set; }
 
