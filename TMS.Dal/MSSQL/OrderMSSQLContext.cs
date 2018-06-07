@@ -24,9 +24,56 @@ namespace TMS.Dal.MSSQL
             throw new System.NotImplementedException();
         }
 
+        //TODO make this thing
+        /// <summary>
+        /// Get order by id
+        /// </summary>
+        /// <param name="id">id from the selected order</param>
+        /// <returns>Object of 1 order.</returns>
         public Order GetById(int id)
         {
-            throw new NotImplementedException();
+            Order order = null;
+            this.query = "SELECT [Order].id as OrderId, [Order].Description, [Order].DeliverDate, [Order].Orderdate, [Order].Length, [Order].Width, [Order].Height, [Order].Weight, [Address].Id as AddressId, [Address].Country, [Address].City, [Address].StreetName, [Address].StreetNumber, [Address].ZipCode, [Account].Id as AccountId FROM [Order] INNER JOIN Address on [Order].AddressId = [Address].Id INNER JOIN Account on [Order].AccountId = [Account].Id WHERE [Order].Id = @Id;";
+
+            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this.query, conn))
+                {
+                    conn.Open();
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    foreach (DbDataRecord record in cmd.ExecuteReader())
+                    {
+                        order = new Order
+                        {
+                            Id = record.GetInt32(record.GetOrdinal("OrderId")),
+                            Description = record.GetString(record.GetOrdinal("Description")),
+                            DeliverDate = record.GetDateTime(record.GetOrdinal("Deliverdate")),
+                            OrderDate = record.GetDateTime(record.GetOrdinal("OrderDate")),
+                            Length = record.GetDouble(record.GetOrdinal("Length")),
+                            Width = record.GetDouble(record.GetOrdinal("Width")),
+                            Height = record.GetDouble(record.GetOrdinal("Height")),
+                            Weight = record.GetDouble(record.GetOrdinal("Weight")),
+
+                            Address = new Address
+                            {
+                                Id = record.GetInt32(record.GetOrdinal("AddressId")),
+                                Country = record.GetString(record.GetOrdinal("Country")),
+                                City = record.GetString(record.GetOrdinal("City")),
+                                StreetName = record.GetString(record.GetOrdinal("StreetName")),
+                                StreetNumber = record.GetString(record.GetOrdinal("StreetNumber")),
+                                ZipCode = record.GetString(record.GetOrdinal("ZipCode")),
+                            },
+
+                            Account = new Account
+                            {
+                                Id = record.GetInt32(record.GetOrdinal("AccountId"))
+                            }
+                        };
+                    }
+                    return order;
+                }
+            }
         }
 
         public bool Exists(Order entity)

@@ -17,10 +17,33 @@
 
 <div class="bg-white">
     <div class="container">
+        @{
+            if (TempData["message"] != null)
+            {
+                <br />
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["message"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+
+            if (TempData["errormessage"] != null)
+            {
+                <br />
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["errormessage"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+        }
         <div class="row justify-content-start py-5">
             <div class="col-md-6 mx-5">
                 <h1>TMS</h1>
-                <br/>
+                <br />
                 <p>
                     We are proud to announce that we are the logistics service provider for reputable clients,
                     in various sectors, n.l. stores, mail order companies, technical wholesalers,
@@ -30,7 +53,7 @@
                     We focus on 2 spearheads: "Distribution Benelux Business to Business" and "Distribution Benelux Business to Consumers".
                     We offer 24-hour delivery or same day delivery according to the customer's requirement.
                 </p>
-                <br/>
+                <br />
                 <p><b>TMS Logistics</b></p>
             </div>
         </div>

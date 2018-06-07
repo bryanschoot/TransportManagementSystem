@@ -65,12 +65,10 @@ namespace TMS.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditOrder()
+        public IActionResult EditOrder(int id)
         {
-            //get account id from cookies
-            int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
-
-            Order order = this._factory.OrderLogic().GetOrderById(id);
+            int accountId = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
+            Order order = this._factory.OrderLogic().GetOrderById(id, accountId);
 
             if (order != null)
             {
@@ -79,7 +77,7 @@ namespace TMS.Controllers
             }
 
             TempData["errormessage"] = "You dont have permission to do this!";
-            return RedirectToAction("Profile", "Account");
+            return RedirectToAction("Orders", "Order");
         }
     }
 }

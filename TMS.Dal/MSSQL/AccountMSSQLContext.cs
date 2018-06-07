@@ -20,6 +20,21 @@ namespace TMS.Dal.MSSQL
             this._connectionstring = connectionstring;
         }
 
+        public bool OpenConnection(SqlConnection connection)
+        {
+            try
+            {
+                connection.Open();
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
+        }
+
         #region NotImplemented
         public IEnumerable<Account> All()
         {
@@ -367,15 +382,20 @@ namespace TMS.Dal.MSSQL
         public int CountAllCustomers()
         {
             this._query = "SELECT COUNT (*) FROM Account INNER JOIN Role ON Account.RoleId = Role.Id WHERE Role.RoleName = 'Costumer';";
-            int total;
+            int total = 0;
 
             using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {
                 using (SqlCommand cmd = new SqlCommand(this._query, conn))
                 {
-                    conn.Open();
-                    total = (Int32)cmd.ExecuteScalar();
-
+                    if (OpenConnection(conn))
+                    {
+                        total = (Int32)cmd.ExecuteScalar();
+                    }
+                    else
+                    {
+                        throw new Exception("There is no connection");
+                    }
                     return total;
                 }
             }

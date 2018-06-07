@@ -24,7 +24,7 @@
                 else
                 {
                     <li class="nav-item">
-                        <a asp-area="" asp-controller="Order" asp-action="Orders" class="nav-item nav-link active">Order</a>
+                        <a asp-area="" asp-controller="Order" asp-action="Orders" class="nav-item nav-link active">Orders</a>
                     </li>
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Account" asp-action="Profile" class="nav-item nav-link active"><b>Hello @User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()</b></a>

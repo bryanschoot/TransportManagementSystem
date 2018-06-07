@@ -1,4 +1,5 @@
-﻿using TMS.Logic.Interface;
+﻿using System;
+using TMS.Logic.Interface;
 using TMS.Model;
 using TMS.Repositroy.Interface;
 
@@ -44,12 +45,11 @@ namespace TMS.Logic
         {
             Address address = this.Repository.GetAddressById(id);
 
-            if (address.Account.Id == accountid)
-            {
-                return address;
-            }
+            if (address == null){return null;}
+            if (address.Account.Id != accountid){return null;}
 
-            return null;
+            return address;
+
         }
 
         public bool UpdateAddress(Address address)
@@ -69,7 +69,7 @@ namespace TMS.Logic
 
         public int CountAllCustomers()
         {
-            return this.Repository.CountAllCustomers();
+           return this.Repository.CountAllCustomers();
         }
 
         public string CreateHash(string tobehashed)

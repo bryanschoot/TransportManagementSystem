@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using TMS.Logic.Interface;
 using TMS.Model;
@@ -22,6 +23,17 @@ namespace TMS.Logic
         public bool CreateOrder(Order model, int id)
         {
             return this.Repository.Insert(model, id);
+        }
+
+        public Order GetOrderById(int id, int accountId)
+        {
+
+            Order order = this.Repository.GetById(id);
+
+            if (order == null){return null;}
+            if (order.Account.Id != accountId){return null;}
+
+            return order;
         }
     }
 }

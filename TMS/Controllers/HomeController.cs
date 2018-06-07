@@ -27,10 +27,16 @@ namespace TMS.Controllers
 
         public IActionResult Index()
         {
-            ViewData["costumer"] = this._account.CountAllCustomers();
-            ViewData["trucks"] = 24; //this._vehicle.CountAllVehicles();
-            ViewData["orders"] = 216; //this._order.CountAllOrders();
-
+            try
+            {
+                ViewData["costumer"] = this._account.CountAllCustomers();
+                ViewData["trucks"] = 24; //this._vehicle.CountAllVehicles();
+                ViewData["orders"] = 216; //this._order.CountAllOrders();
+            }
+            catch (Exception e)
+            {
+                TempData["errormessage"] = e.Message;
+            }
             return View();
         }
 
