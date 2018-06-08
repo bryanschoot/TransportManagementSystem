@@ -142,6 +142,7 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Get old account to compare with the new one
                 Account checkaccount = this._account.GetAccountById(model.Id);
                 //Checks if the userinput has changed
                 bool changed = checkaccount.Email != model.Email || checkaccount.FirstName != model.FirstName || checkaccount.LastName != model.LastName || checkaccount.PhoneNumber != model.PhoneNumber;

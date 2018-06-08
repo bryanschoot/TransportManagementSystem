@@ -48,5 +48,10 @@ namespace TMS.Dal.MEMORY
         {
             throw new System.NotImplementedException();
         }
+
+        public bool DeleteById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

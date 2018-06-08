@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TMS.Dal.Interface;
 using TMS.Model;
 
@@ -6,7 +7,25 @@ namespace TMS.Dal.MEMORY
 {
     public class AccountMemoryContext : IAccountContext
     {
-        public AccountMemoryContext() { }
+        private List<Account> accounts = new List<Account>();
+        private List<Address> addresses = new List<Address>();
+
+        public AccountMemoryContext()
+        {
+            initilizeAddress();
+            initilizeAccounts();
+        }
+
+        public void initilizeAccounts()
+        {
+            accounts.Add(new Account{Id = 1, Email = "jan@test.nl", Password = "jantest123", FirstName = "Jan", LastName = "Willems", PhoneNumber = "0681022103", Role = new Role(1, "Admin"), Address = addresses});
+            accounts.Add(new Account{Id = 2, Email = "bryan@test.nl", Password = "bryantest123", FirstName = "Bryan", LastName = "Schoot", PhoneNumber = "0681322803", Role = new Role(2, "Employee"), Address = addresses,});
+        }
+
+        public void initilizeAddress()
+        {
+            addresses.Add(new Address{Id = 1, Country = "Netherlands", City = "Arnhem", StreetName = "Marxsingel", StreetNumber = "10", ZipCode = "6836PZ"});
+        }
 
         public IEnumerable<Account> All()
         {
@@ -45,17 +64,28 @@ namespace TMS.Dal.MEMORY
 
         public bool IsAccountValid(string email, string password)
         {
-            throw new System.NotImplementedException();
+            if (email == accounts[0].Email && password == accounts[0].Password)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool DoesEmailExist(string email)
         {
-            throw new System.NotImplementedException();
+            if (email == accounts[0].Email)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public Account GetAccountByEmail(string email)
         {
-            throw new System.NotImplementedException();
+            Account account = accounts.FirstOrDefault(a => a.Email == email);
+            return account;
         }
 
         public Account GetAccountById(int id)

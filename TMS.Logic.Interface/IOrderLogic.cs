@@ -8,5 +8,6 @@ namespace TMS.Logic.Interface
         List<Order> GetAllOrdersById(int id);
         bool CreateOrder(Order model, int id);
         Order GetOrderById(int id, int accountId);
+        bool DeleteOrderById(int id);
     }
 }

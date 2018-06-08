@@ -23,6 +23,10 @@ namespace TMS.Controllers
             this._order = this._factory.OrderLogic();
         }
         
+        /// <summary>
+        /// Get all orders of current logged in account
+        /// </summary>
+        /// <returns>view with all orders</returns>
         [HttpGet]
         public IActionResult Orders()
         {
@@ -33,6 +37,10 @@ namespace TMS.Controllers
             return View(order);
         }
 
+        /// <summary>
+        /// Used for multiple actions/post
+        /// </summary>
+        /// <returns>Returns a filled form or empty form view</returns>
         [HttpGet]
         public IActionResult Order()
         {
@@ -64,6 +72,11 @@ namespace TMS.Controllers
             return View("Order", model);
         }
 
+        /// <summary>
+        /// Edit a order (displaying selected order)
+        /// </summary>
+        /// <param name="id">id of the selected order</param>
+        /// <returns>view filled with a specific model</returns>
         [HttpGet]
         public IActionResult EditOrder(int id)
         {
@@ -77,6 +90,49 @@ namespace TMS.Controllers
             }
 
             TempData["errormessage"] = "You dont have permission to do this!";
+            return RedirectToAction("Orders", "Order");
+        }
+
+        /// <summary>
+        /// Updates the model when the state of the model is valid
+        /// </summary>
+        /// <param name="model">Model of a order (Orderviewmodel)</param>
+        /// <returns>Returns the view from the current order</returns>
+        [HttpPost]
+        public IActionResult UpdateOrder(OrderViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int accountId = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
+                Order checkorder = this._factory.OrderLogic().GetOrderById(model.OrderId, accountId);
+
+                //TODO add address to this check
+                bool changed = checkorder.Id != model.OrderId || checkorder.Description != model.Description ||
+                               checkorder.DeliverDate != model.DeliverDate || checkorder.OrderDate != model.OrderDate ||
+                               checkorder.Length != model.Length || checkorder.Width != model.Width ||
+                               checkorder.Height != model.Height || checkorder.Weight != model.Weight || checkorder.Address.Id != model.AddressId || checkorder.Address.City != model.City;
+
+                if (changed)
+                {
+                    //TODO update the order + address assigned to it
+                    TempData["message"] = "Order succesfully updated";
+                    return View("Order", model);
+                }
+                TempData["errormessage"] = "Order cannot be updated";
+                return View("Order", model);
+            }
+            return View("Order", model);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteOrder(int id)
+        {
+            if (this._factory.OrderLogic().DeleteOrderById(id))
+            {
+                TempData["message"] = "Order has been deleted succesfully!";
+                return RedirectToAction("Orders", "Order");
+            }
+            TempData["errormessage"] = "Order can not be deleted!";
             return RedirectToAction("Orders", "Order");
         }
     }

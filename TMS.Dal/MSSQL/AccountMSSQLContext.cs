@@ -28,8 +28,9 @@ namespace TMS.Dal.MSSQL
                 return true;
 
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
+                throw new Exception("There is no connection");
                 return false;
             }
 
@@ -391,10 +392,6 @@ namespace TMS.Dal.MSSQL
                     if (OpenConnection(conn))
                     {
                         total = (Int32)cmd.ExecuteScalar();
-                    }
-                    else
-                    {
-                        throw new Exception("There is no connection");
                     }
                     return total;
                 }

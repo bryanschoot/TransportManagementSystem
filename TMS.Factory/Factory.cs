@@ -20,8 +20,9 @@ namespace TMS.Factory
         /// </summary>
         public Factory()
         {
-            this.context = ConfigurationManager.AppSettings["context"];
-            this.connectionstring = ConfigurationManager.ConnectionStrings[this.context].ConnectionString;
+//            this.context = ConfigurationManager.AppSettings["context"];
+//            this.connectionstring = ConfigurationManager.ConnectionStrings[this.context].ConnectionString;
+            this.context = "MEMORY";
         }
 
         /// <summary>

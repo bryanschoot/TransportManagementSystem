@@ -56,6 +56,11 @@ namespace TMS.Repository
             return this.Context.GetAllOrdersById(id);
         }
 
+        public bool DeleteById(int id)
+        {
+            return this.Context.DeleteById(id);
+        }
+
         #endregion
     }
 }

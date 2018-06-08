@@ -10,9 +10,9 @@ namespace TMS.Dal.MSSQL
 {
     public class OrderMSSQLContext : IOrderContext
     {
-        private string _connestionstring;
-        private string query;
-        private string procedure;
+        private readonly string _connestionstring;
+        private string _query;
+        private string _procedure;
 
         public OrderMSSQLContext(string connestionstring)
         {
@@ -33,11 +33,11 @@ namespace TMS.Dal.MSSQL
         public Order GetById(int id)
         {
             Order order = null;
-            this.query = "SELECT [Order].id as OrderId, [Order].Description, [Order].DeliverDate, [Order].Orderdate, [Order].Length, [Order].Width, [Order].Height, [Order].Weight, [Address].Id as AddressId, [Address].Country, [Address].City, [Address].StreetName, [Address].StreetNumber, [Address].ZipCode, [Account].Id as AccountId FROM [Order] INNER JOIN Address on [Order].AddressId = [Address].Id INNER JOIN Account on [Order].AccountId = [Account].Id WHERE [Order].Id = @Id;";
+            this._query = "SELECT [Order].id as OrderId, [Order].Description, [Order].DeliverDate, [Order].Orderdate, [Order].Length, [Order].Width, [Order].Height, [Order].Weight, [Address].Id as AddressId, [Address].Country, [Address].City, [Address].StreetName, [Address].StreetNumber, [Address].ZipCode, [Account].Id as AccountId FROM [Order] INNER JOIN Address on [Order].AddressId = [Address].Id INNER JOIN Account on [Order].AccountId = [Account].Id WHERE [Order].Id = @Id;";
 
             using (SqlConnection conn = new SqlConnection(this._connestionstring))
             {
-                using (SqlCommand cmd = new SqlCommand(this.query, conn))
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
                 {
                     conn.Open();
                     cmd.Parameters.AddWithValue("@Id", id);
@@ -88,11 +88,11 @@ namespace TMS.Dal.MSSQL
         /// <returns>true or false based on inserted.</returns>
         public bool Insert(Order entity, int accountid)
         {
-            this.procedure = "spCreateOrder";
+            this._procedure = "spCreateOrder";
 
             using (SqlConnection conn = new SqlConnection(this._connestionstring))
             {
-                using (SqlCommand cmd = new SqlCommand(this.procedure, conn))
+                using (SqlCommand cmd = new SqlCommand(this._procedure, conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -150,11 +150,11 @@ namespace TMS.Dal.MSSQL
         public List<Order> GetAllOrdersById(int id)
         {
             List<Order> orders = new List<Order>();
-            this.query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate, Address.Country, Address.City, Address.StreetName, Address.StreetNumber, Address.ZipCode FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id INNER JOIN Address ON [Order].AddressId = Address.id WHERE Account.Id=@Id";
+            this._query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate, Address.Country, Address.City, Address.StreetName, Address.StreetNumber, Address.ZipCode FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id INNER JOIN Address ON [Order].AddressId = Address.id WHERE Account.Id=@Id";
 
             using (SqlConnection conn = new SqlConnection(this._connestionstring))
             {
-                using (SqlCommand cmd = new SqlCommand(this.query, conn))
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
                 {
                     conn.Open();
                     cmd.Parameters.AddWithValue("@Id", id);
@@ -179,6 +179,29 @@ namespace TMS.Dal.MSSQL
                     }
 
                     return orders;
+                }
+            }
+        }
+
+        public bool DeleteById(int id)
+        {
+            //TODO so not safe
+            this._query = "DELETE FROM [Order] WHERE [Order].Id = @id;";
+
+            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
                 }
             }
         }

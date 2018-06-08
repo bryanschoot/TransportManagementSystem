@@ -9,19 +9,41 @@
                     <hr />
                     <div class="row">
                         <div class="col">
-                            <a asp-controller="Order" asp-action="Orders"><button class="btn btn-outline-dark btn-block btn-lg">Back to orders</button></a>                        </div>
+                            <a asp-controller="Order" asp-action="Orders"><button class="btn btn-outline-dark btn-block btn-lg">Back to orders</button></a>                        
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
+            @{
+                if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["message"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+
+                if (TempData["errormessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["errormessage"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            }
             <div class="card mb-5">
                 <div class="card-body">
                     @{
                         if (Model == null)
                         {
                             <h5 class="card-title text-center">Create order</h5>
-                            <hr />
+                            <hr/>
                             <form asp-controller="Order" asp-action="CreateOrder">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-group">
@@ -59,10 +81,10 @@
                                     </div>
                                 </div>
 
-                                <hr />
+                                <hr/>
                                 <div class="form-row form-group">
                                     <div class="col">
-                                        <label asp-for="Country">Country:</label><br />
+                                        <label asp-for="Country">Country:</label><br/>
                                         <input asp-for="Country" type="text" class="form-control" placeholder="Country">
                                         <span asp-validation-for="Country" class="text-danger"></span>
                                     </div>
@@ -96,12 +118,18 @@
                         {
                             <h5 class="card-title text-center">Edit order</h5>
                             <hr/>
-                            <form asp-controller="Order" asp-action="CreateOrder">
+                            <form asp-controller="Order" asp-action="UpdateOrder">
+                                <input type="hidden" asp-for=OrderId/>
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-group">
                                     <label asp-for="DeliverDate">Deliverdate:</label>
-                                    <input asp-for="DeliverDate" class="form-control" id="datepicker" />
+                                    <input asp-for="DeliverDate" class="form-control" id="datepicker"/>
                                     <span asp-validation-for="DeliverDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="OrderDate">Deliverdate:</label>
+                                    <input asp-for="OrderDate" class="form-control" id="datepicker" readonly="readonly"/>
+                                    <span asp-validation-for="OrderDate" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
                                     <label asp-for="Description">Description:</label>
@@ -133,10 +161,10 @@
                                     </div>
                                 </div>
 
-                                <hr />
+                                <hr/>
                                 <div class="form-row form-group">
                                     <div class="col">
-                                        <label asp-for="Country">Country:</label><br />
+                                        <label asp-for="Country">Country:</label><br/>
                                         <input asp-for="Country" type="text" class="form-control" placeholder="Country">
                                         <span asp-validation-for="Country" class="text-danger"></span>
                                     </div>

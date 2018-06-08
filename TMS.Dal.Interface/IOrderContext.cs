@@ -6,5 +6,6 @@ namespace TMS.Dal.Interface
     public interface IOrderContext : IContext<Order>
     {
         List<Order> GetAllOrdersById(int id);
+        bool DeleteById(int id);
     }
 }
