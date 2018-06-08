@@ -9,5 +9,6 @@ namespace TMS.Logic.Interface
         bool CreateOrder(Order model, int id);
         Order GetOrderById(int id, int accountId);
         bool DeleteOrderById(int id);
+        bool UpdateOrder(Order order);
     }
 }

@@ -20,6 +20,7 @@ namespace TMS.Dal.MEMORY
         {
             accounts.Add(new Account{Id = 1, Email = "jan@test.nl", Password = "jantest123", FirstName = "Jan", LastName = "Willems", PhoneNumber = "0681022103", Role = new Role(1, "Admin"), Address = addresses});
             accounts.Add(new Account{Id = 2, Email = "bryan@test.nl", Password = "bryantest123", FirstName = "Bryan", LastName = "Schoot", PhoneNumber = "0681322803", Role = new Role(2, "Employee"), Address = addresses,});
+            accounts.Add(new Account { Id = 3, Email = "sven@test.nl", Password = "sventest123", FirstName = "Sven", LastName = "Kloon", PhoneNumber = "0681322973", Role = new Role(3, "Customer"), Address = addresses, });
         }
 
         public void initilizeAddress()
@@ -64,7 +65,7 @@ namespace TMS.Dal.MEMORY
 
         public bool IsAccountValid(string email, string password)
         {
-            if (email == accounts[0].Email && password == accounts[0].Password)
+            if (accounts.Any(a => a.Email == email && a.Password == password))
             {
                 return true;
             }
@@ -74,11 +75,10 @@ namespace TMS.Dal.MEMORY
 
         public bool DoesEmailExist(string email)
         {
-            if (email == accounts[0].Email)
+            if (accounts.Any(a => a.Email == email))
             {
                 return true;
             }
-
             return false;
         }
 

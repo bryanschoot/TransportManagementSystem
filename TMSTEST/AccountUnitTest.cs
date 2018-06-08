@@ -31,6 +31,7 @@ namespace TMSTEST
             accounts.Add(new Account { Id = 1, Email = "jan@test.nl", Password = "jantest123", FirstName = "Jan", LastName = "Willems", PhoneNumber = "0681022103", Role = new Role(1, "Admin"), Address = addresses });
             accounts.Add(new Account { Id = 2, Email = "bryan@test.nl", Password = "bryantest123", FirstName = "Bryan", LastName = "Schoot", PhoneNumber = "0681322803", Role = new Role(2, "Employee"), Address = addresses, });
             accounts.Add(new Account { Id = 3, Email = "sven@test.nl", Password = "sventest123", FirstName = "Sven", LastName = "Kloon", PhoneNumber = "0681322973", Role = new Role(3, "Customer"), Address = addresses, });
+            accounts.Add(new Account { Id = 4, Email = "melle@test.nl", Password = "melletest123", FirstName = "Melle", LastName = "Regels", PhoneNumber = "0685842973", Role = new Role(3, "Customer"), Address = addresses, });
         }
 
         public void initilizeAddress()
@@ -42,44 +43,55 @@ namespace TMSTEST
         [TestMethod]
         public void AccountEmailExist()
         {
-            bool _check = this._factory.AccountLogic().DoesEmailExist(accounts[0].Email);
-            Assert.IsTrue(_check);
+            bool check = this._factory.AccountLogic().DoesEmailExist(accounts[0].Email);
+            Assert.IsTrue(check);
         }
 
         [TestMethod]
         public void AccountEmailDoesNotExcist()
         {
-            bool _check = this._factory.AccountLogic().DoesEmailExist(accounts[1].Email);
-            Assert.IsFalse(_check);
+            bool check = this._factory.AccountLogic().DoesEmailExist(accounts[3].Email);
+            Assert.IsFalse(check);
         }
         //End
 
         //Test function IsAccountValid
         [TestMethod]
-        public void AccountCanLogin()
+        public void IsAccountValidTest()
         {
-            bool _check = this._factory.AccountLogic().IsAccountValid(accounts[0].Email, accounts[0].Password);
-            Assert.IsTrue(_check);
+            bool check = this._factory.AccountLogic().IsAccountValid(accounts[0].Email, accounts[0].Password);
+            Assert.IsTrue(check);
         }
 
         [TestMethod]
-        public void AccountCannotLogin()
+        public void IsAccountNotValidTest()
         {
-            bool _check = this._factory.AccountLogic().IsAccountValid(accounts[1].Email, accounts[1].Password);
-            Assert.IsFalse(_check);
+            bool check = this._factory.AccountLogic().IsAccountValid(accounts[3].Email, accounts[3].Password);
+            Assert.IsFalse(check);
         }
         //End
 
         //Test function GetAccountByEmail
         [TestMethod]
-        public void GetAccountByEmail()
+        public void GetAccountByEmailEqualTest()
         {
             Account requestedAccount = this._factory.AccountLogic().GetAccountByEmail(accounts[0].Email);
-            Account expectedAccount = (Account) accounts[0];
+            Account expectedAccount = accounts[0];
             
             Assert.AreEqual(requestedAccount.Email, expectedAccount.Email);
         }
+
+        [TestMethod]
+        public void GetAccountByEmailNotEqualTest()
+        {
+            Account requestedAccount = this._factory.AccountLogic().GetAccountByEmail(accounts[3].Email);
+            Account expectedAccount = accounts[0];
+
+            Assert.IsNull(requestedAccount);
+            Assert.AreNotEqual(requestedAccount, expectedAccount);
+        }
         //End
+
         //TODO create a flow for example log in without creating a account and then a flow that registers logs in and creates a order;
         //TODO testmethod that test multiple units == intergration test.
     }

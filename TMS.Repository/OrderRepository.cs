@@ -38,7 +38,7 @@ namespace TMS.Repository
 
         public bool Update(Order entity)
         {
-            throw new System.NotImplementedException();
+            return this.Context.Update(entity);
         }
 
         public bool Delete(Order entity)

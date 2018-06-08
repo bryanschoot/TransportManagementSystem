@@ -24,7 +24,6 @@ namespace TMS.Dal.MSSQL
             throw new System.NotImplementedException();
         }
 
-        //TODO make this thing
         /// <summary>
         /// Get order by id
         /// </summary>
@@ -109,27 +108,48 @@ namespace TMS.Dal.MSSQL
                     cmd.Parameters.AddWithValue("@StreetNumber", entity.Address.StreetNumber);
                     cmd.Parameters.AddWithValue("@ZipCode", entity.Address.ZipCode);
 
-                    try
+                    conn.Open();
+                    if (Math.Abs(cmd.ExecuteNonQuery()) > 0)
                     {
-                        conn.Open();
-                        if (Math.Abs(cmd.ExecuteNonQuery()) > 0)
-                        {
-                            return true;
-                        }
-                        return false;
+                        return true;
                     }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
-                   
+                    return false;
                 }
             }
         }
 
         public bool Update(Order entity)
         {
-            throw new System.NotImplementedException();
+            this._procedure = "spUpdateOrder";
+
+            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._procedure, conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@OrderId", entity.Id);
+                    cmd.Parameters.AddWithValue("@Description", entity.Description);
+                    cmd.Parameters.AddWithValue("@DeliverDate", entity.DeliverDate.ToString("yyyy-MM-dd hh:mm:ss"));
+                    cmd.Parameters.AddWithValue("@Length", entity.Length);
+                    cmd.Parameters.AddWithValue("@Width", entity.Width);
+                    cmd.Parameters.AddWithValue("@Height", entity.Height);
+                    cmd.Parameters.AddWithValue("@Weight", entity.Weight);
+                    cmd.Parameters.AddWithValue("@AddressId", entity.Address.Id);
+                    cmd.Parameters.AddWithValue("@Country", entity.Address.Country);
+                    cmd.Parameters.AddWithValue("@City", entity.Address.City);
+                    cmd.Parameters.AddWithValue("@StreetName", entity.Address.StreetName);
+                    cmd.Parameters.AddWithValue("@StreetNumber", entity.Address.StreetNumber);
+                    cmd.Parameters.AddWithValue("@ZipCode", entity.Address.ZipCode);
+
+                    conn.Open();
+                    if (Math.Abs(cmd.ExecuteNonQuery()) > 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
         }
 
         public bool Delete(Order entity)
@@ -185,7 +205,7 @@ namespace TMS.Dal.MSSQL
 
         public bool DeleteById(int id)
         {
-            //TODO so not safe
+            //So not safe
             this._query = "DELETE FROM [Order] WHERE [Order].Id = @id;";
 
             using (SqlConnection conn = new SqlConnection(this._connestionstring))

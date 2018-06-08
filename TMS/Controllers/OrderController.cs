@@ -106,19 +106,21 @@ namespace TMS.Controllers
                 int accountId = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
                 Order checkorder = this._factory.OrderLogic().GetOrderById(model.OrderId, accountId);
 
-                //TODO add address to this check
-                bool changed = checkorder.Id != model.OrderId || checkorder.Description != model.Description ||
-                               checkorder.DeliverDate != model.DeliverDate || checkorder.OrderDate != model.OrderDate ||
-                               checkorder.Length != model.Length || checkorder.Width != model.Width ||
-                               checkorder.Height != model.Height || checkorder.Weight != model.Weight || checkorder.Address.Id != model.AddressId || checkorder.Address.City != model.City;
+                bool changed = checkorder.Id != model.OrderId || checkorder.Description != model.Description || checkorder.DeliverDate != model.DeliverDate || checkorder.OrderDate != model.OrderDate || checkorder.Length != model.Length || checkorder.Width != model.Width || checkorder.Height != model.Height || checkorder.Weight != model.Weight || checkorder.Address.City != model.City || checkorder.Address.Country != model.Country || checkorder.Address.StreetName != model.StreetName || checkorder.Address.StreetNumber != model.StreetNumber || checkorder.Address.ZipCode != model.ZipCode;
 
                 if (changed)
                 {
+                    Order order = model.CopyTo();
                     //TODO update the order + address assigned to it
-                    TempData["message"] = "Order succesfully updated";
+                    if (this._factory.OrderLogic().UpdateOrder(order))
+                    {
+                        TempData["message"] = "Order succesfully updated!";
+                        return View("Order", model);
+                    }
+                    TempData["errormessage"] = "Order cannot be updated!";
                     return View("Order", model);
                 }
-                TempData["errormessage"] = "Order cannot be updated";
+                TempData["errormessage"] = "Order cannot be update because you did not change anything!";
                 return View("Order", model);
             }
             return View("Order", model);

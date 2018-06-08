@@ -41,5 +41,10 @@ namespace TMS.Logic
             //TODO no check is account may delete the order with this id
             return this.Repository.DeleteById(id);
         }
+
+        public bool UpdateOrder(Order order)
+        {
+            return this.Repository.Update(order);
+        }
     }
 }

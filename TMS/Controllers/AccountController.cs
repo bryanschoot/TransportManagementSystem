@@ -151,13 +151,15 @@ namespace TMS.Controllers
                 {
                     //copies viewmodel to model
                     Account account = model.CopyTo();
-                    this._account.UpdateAccount(account);
-
-                    TempData["message"] = "Account has been updated!";
-
+                    if (this._account.UpdateAccount(account))
+                    {
+                        TempData["message"] = "Account has been updated!";
+                        return RedirectToAction("Profile", "Account");
+                    }
+                    TempData["errormessage"] = "Account cannot be updated!";
                     return RedirectToAction("Profile", "Account");
                 }
-                TempData["errormessage"] = "Account cannot be updated!";
+                TempData["errormessage"] = "Account cannot be updated because you did not change anything!";
                 return RedirectToAction("Profile", "Account");
             }
 
@@ -248,14 +250,15 @@ namespace TMS.Controllers
                 {
                     //copies viewmodel to model
                     Address address = model.CopyTo();
-
-                    this._account.UpdateAddress(address);
-
-                    TempData["message"] = "Address has been updated!";
+                    if (this._account.UpdateAddress(address))
+                    {
+                        TempData["message"] = "Address has been updated!";
+                        return RedirectToAction("Profile", "Account", new { id = model.Id });
+                    }
+                    TempData["errormessage"] = "Address cannot be updated!";
                     return RedirectToAction("Profile", "Account", new { id = model.Id });
                 }
-
-                TempData["errormessage"] = "Address cannot be updated!";
+                TempData["errormessage"] = "Address cannot be updated because you did not change anything!";
                 return RedirectToAction("Profile", "Account", new { id = model.Id });
             }
             return this.View("Address", model);
