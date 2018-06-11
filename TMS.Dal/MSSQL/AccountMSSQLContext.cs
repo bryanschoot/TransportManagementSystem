@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Runtime.CompilerServices;
 using TMS.Dal.Interface;
 using TMS.Model;
 
@@ -39,7 +38,33 @@ namespace TMS.Dal.MSSQL
         #region NotImplemented
         public IEnumerable<Account> All()
         {
-            throw new System.NotImplementedException();
+            this._query = "SELECT Account.Id, Account.Email, Account.FirstName, Account.LastName, Role.RoleName FROM Account INNER JOIN Role on Account.RoleId = Role.Id ORDER BY Role.RoleName ";
+            List<Account> accounts = new List<Account>();
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    foreach (DbDataRecord record in cmd.ExecuteReader())
+                    {
+                        Account account = new Account
+                        {
+                            Id = record.GetInt32(record.GetOrdinal("Id")),
+                            Email = record.GetString(record.GetOrdinal("Email")),
+                            FirstName = record.GetString(record.GetOrdinal("FirstName")),
+                            LastName = record.GetString(record.GetOrdinal("LastName")),
+                            Role = new Role
+                            {
+                                RoleName = record.GetString(record.GetOrdinal("RoleName"))
+                            },
+                        };
+                        accounts.Add(account);
+                    }
+                    return accounts;
+                }
+            }
         }
 
         public Account GetById(int id)
@@ -119,6 +144,44 @@ namespace TMS.Dal.MSSQL
         #endregion
 
         #region GetAccountByEmail
+
+        public bool CreateAccount(Account account)
+        {
+            if (account.Password != null)
+            {
+                this._query = "INSERT INTO Account (Email, FirstName, LastName, Password, PhoneNumber, RoleId) VALUES (@Email, @FirstName, @LastName, @Password, @PhoneNumber, @RoleId);";
+            }
+            else
+            {
+                this._query = "INSERT INTO Account (Email, FirstName, LastName, PhoneNumber, RoleId) VALUES (@Email, @FirstName, @LastName, @PhoneNumber, @RoleId);";
+            }
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    cmd.Parameters.AddWithValue("@Email", account.Email);
+                    cmd.Parameters.AddWithValue("@FirstName", account.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", account.LastName);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", account.PhoneNumber);
+                    if (account.Password != null)
+                    {
+                        cmd.Parameters.AddWithValue("@Password", account.Password);
+                    }
+                    cmd.Parameters.AddWithValue("@RoleId", account.Role.Id);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+        }
+
         public Account GetAccountByEmail(string email)
         {
             Account account = null;
@@ -189,6 +252,12 @@ namespace TMS.Dal.MSSQL
                             FirstName = accountRow[2].ToString(),
                             LastName = accountRow[3].ToString(),
                             PhoneNumber = accountRow[4].ToString(),
+
+                            Role = new Role
+                            {
+                                Id = Convert.ToInt32(accountRow[5]),
+                                RoleName = accountRow[6].ToString(),
+                            }
                         };
 
                         if (addressTable.Rows.Count > 0)
@@ -239,6 +308,39 @@ namespace TMS.Dal.MSSQL
                     {
                         return true;
                     }
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Admin update allows you to update the role of the user
+        /// </summary>
+        /// <param name="account">account + roleid</param>
+        /// <returns>bool true or false</returns>
+        public bool AdminUpdateAccount(Account account)
+        {
+            this._query =
+                "UPDATE Account SET Account.Email=@Email, Account.FirstName=@FirstName, Account.LastName=@LastName, Account.PhoneNumber=@PhoneNumber, Account.RoleId=@RoleId WHERE Account.Id=@Id";
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    cmd.Parameters.AddWithValue("@Id", account.Id);
+                    cmd.Parameters.AddWithValue("@Email", account.Email);
+                    cmd.Parameters.AddWithValue("@FirstName", account.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", account.LastName);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", account.PhoneNumber);
+                    cmd.Parameters.AddWithValue("@RoleId", account.Role.Id);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        return true;
+                    }
+
                     return false;
                 }
             }
@@ -396,6 +498,33 @@ namespace TMS.Dal.MSSQL
                     return total;
                 }
             }
+        }
+
+        public IEnumerable<Role> GetAllRoles()
+        {
+            this._query = "SELECT Role.Id, Role.RoleName From Role";
+            List<Role> roles = new List<Role>();
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    foreach (DbDataRecord record in cmd.ExecuteReader())
+                    {
+                        Role role = new Role
+                        {
+                            Id = record.GetInt32(record.GetOrdinal("Id")),
+                            RoleName = record.GetString(record.GetOrdinal("RoleName"))
+                        };
+                        roles.Add(role);
+                    }
+
+                    return roles;
+                }
+            }
+
         }
     }
 }

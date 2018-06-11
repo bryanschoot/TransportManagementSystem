@@ -9,23 +9,32 @@
     <br />
     <li>User: employee@test.nl<br />Pass: Employee123<br />Role: Employee</li>
     <br />
-    <li>User: costumer@test.nl<br />Pass: Costumer123 <br />Role: Costumer</li>
+    <li>User: customer@test.nl<br />Pass: Customer123 <br />Role: Customer</li>
 </ul>
 
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @{
-                if (TempData["message"] != null)
-                {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        @TempData["message"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
-            }
+             @{
+                 if (TempData["message"] != null)
+                 {
+                     <div class="alert alert-success alert-dismissible fade show" role="alert">
+                         @TempData["message"]
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                     </div>
+                 }
+                 if (TempData["errormessage"] != null)
+                 {
+                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                         @TempData["errormessage"]
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                     </div>
+                 }
+             }
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title text-center">Account</h5>
@@ -55,37 +64,3 @@
         </div>
     </div>
 </div>
-
-
-
-@* <div class="container py-5"> *@
-@*     <div class="row justify-content-center py-5"> *@
-@*         <div class="col-md-6 py-5 bg-red text-white"> *@
-@*             <h2 class="text-center">Login</h2> *@
-@*             <br /> *@
-@*             <div class="mx-5"> *@
-@*                 <form asp-controller="Account" asp-action="Login" method="post"> *@
-@*                     <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
-@*                     <div class="form-group"> *@
-@*                         <label for="email">Email address</label> *@
-@*                         <input asp-for="Email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"> *@
-@*                         <small id="emailHelp" class="form-text text-white">We'll never share your email with anyone else.</small> *@
-@*                         <span asp-validation-for="Email"></span> *@
-@*                     </div> *@
-@*                     <div class="form-group"> *@
-@*                         <label for="password">Password</label> *@
-@*                         <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Password"> *@
-@*                         <span asp-validation-for="Password"></span> *@
-@*                     </div> *@
-@*                     <div class="form-check"> *@
-@*                         <input type="checkbox" class="form-check-input" id="remember"> *@
-@*                         <label class="form-check-label" for="remember">Remember me</label> *@
-@*                     </div> *@
-@*                     <br /> *@
-@*                     <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Aanmelden</button> *@
-@*                 </form> *@
-@*             </div> *@
-@* *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@

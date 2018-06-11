@@ -16,9 +16,9 @@ namespace TMS.Repository
         }
 
         #region NotImplemented
-        public IEnumerable<Model.Account> All()
+        public IEnumerable<Account> All()
         {
-            throw new NotImplementedException();
+            return this.Contex.All();
         }
 
         public Model.Account GetById(int id)
@@ -77,6 +77,16 @@ namespace TMS.Repository
             return this.Contex.UpdateAccount(account);
         }
 
+        public bool AdminUpdateAccount(Account account)
+        {
+            return this.Contex.AdminUpdateAccount(account);
+        }
+
+        public bool CreateAccount(Account account)
+        {
+            return this.Contex.CreateAccount(account);
+        }
+
         public Address GetAddressById(int id)
         {
             return this.Contex.GetAddressById(id);
@@ -100,6 +110,11 @@ namespace TMS.Repository
         public int CountAllCustomers()
         {
             return this.Contex.CountAllCustomers();
+        }
+
+        public IEnumerable<Role> GetAllRoles()
+        {
+            return this.Contex.GetAllRoles();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMS.Logic.Interface;
 using TMS.Model;
+using TMS.Model.Exceptions;
 using TMS.Repositroy.Interface;
 
 namespace TMS.Logic
@@ -33,20 +35,57 @@ namespace TMS.Logic
 
         public Account GetAccountById(int id)
         {
+            if (id == 0)
+            {
+                new AccountException("Id cannot be empty");
+            }
             return this.Repository.GetAccountById(id);
         }
 
         public bool UpdateAccount(Account account)
         {
+            if (account == null)
+            {
+                new AccountException("Account = null.");
+                return false;
+            }
             return this.Repository.UpdateAccount(account);
+        }
+
+        public bool AdminUpdateAccount(Account account)
+        {
+            if (account == null)
+            {
+                new AccountException("Account = null.");
+                return false;
+            }
+            return this.Repository.AdminUpdateAccount(account);
+        }
+
+        public bool CreateAccount(Account account)
+        {
+            if (account == null)
+            {
+                new AccountException("Account = null.");
+                return false;
+            }
+            return this.Repository.CreateAccount(account);
         }
 
         public Address GetAddressById(int id, int accountid)
         {
             Address address = this.Repository.GetAddressById(id);
 
-            if (address == null){return null;}
-            if (address.Account.Id != accountid){return null;}
+            if (address == null)
+            {
+                new AddressException("Address = null");
+                return null;
+            }
+            if (address.Account.Id != accountid)
+            {
+                new AddressException("Address is not yours");
+                return null;
+            }
 
             return address;
 
@@ -70,6 +109,16 @@ namespace TMS.Logic
         public int CountAllCustomers()
         {
            return this.Repository.CountAllCustomers();
+        }
+
+        public IEnumerable<Account> GetAllAccounts()
+        {
+            return this.Repository.All();
+        }
+
+        public IEnumerable<Role> GetAllRoles()
+        {
+            return this.Repository.GetAllRoles();
         }
 
         public string CreateHash(string tobehashed)

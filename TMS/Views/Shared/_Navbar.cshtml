@@ -15,23 +15,40 @@
                 <li>
                     <a asp-area="" asp-controller="Home" asp-action="News" class="nav-item nav-link active">News</a>
                 </li>
-                @if (!User.Identity.IsAuthenticated)
-                {
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Account" asp-action="Login" class="nav-item nav-link active">Login</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Order" asp-action="Orders" class="nav-item nav-link active">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Account" asp-action="Profile" class="nav-item nav-link active"><b>Hello @User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()</b></a>
-                    </li>
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Account" asp-action="Logout" class="nav-item nav-link active">Logout</a>
-                    </li>
+                @{
+                    if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Account" asp-action="Accounts" class="nav-item nav-link active">Accounts</a>
+                        </li>
+                    }
+                    if (User.IsInRole("Employee") || User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="" asp-action="" class="nav-item nav-link active">Pickorders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="" asp-action="" class="nav-item nav-link active">Rides</a>
+                        </li>
+                    }
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Order" asp-action="Orders" class="nav-item nav-link active">Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Account" asp-action="Profile" class="nav-item nav-link active"><b>Hello @User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Account" asp-action="Logout" class="nav-item nav-link active">Logout</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Account" asp-action="Login" class="nav-item nav-link active">Login</a>
+                        </li>
+                    }
                 }
             </ul>
         </div>

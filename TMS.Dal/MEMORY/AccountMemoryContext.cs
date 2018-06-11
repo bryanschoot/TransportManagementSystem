@@ -7,12 +7,15 @@ namespace TMS.Dal.MEMORY
 {
     public class AccountMemoryContext : IAccountContext
     {
-        private List<Account> accounts = new List<Account>();
-        private List<Address> addresses = new List<Address>();
+        private static List<Account> accounts = new List<Account>();
+        private static List<Address> addresses = new List<Address>();
 
         public AccountMemoryContext()
         {
-            initilizeAddress();
+            if (accounts == null)
+            {
+                initilizeAddress();
+            }
             initilizeAccounts();
         }
 
@@ -82,6 +85,25 @@ namespace TMS.Dal.MEMORY
             return false;
         }
 
+        public bool AdminUpdateAccount(Account account)
+        {
+            accounts[2] = account;
+            if (accounts[2] == account)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool CreateAccount(Account account)
+        {
+            var oldCount = accounts.Count();
+            accounts.Add(account);
+
+            return oldCount < accounts.Count();
+        }
+
         public Account GetAccountByEmail(string email)
         {
             Account account = accounts.FirstOrDefault(a => a.Email == email);
@@ -95,7 +117,13 @@ namespace TMS.Dal.MEMORY
 
         public bool UpdateAccount(Account account)
         {
-            throw new System.NotImplementedException();
+            accounts[2] = account;
+            if (accounts[2] == account)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public Address GetAddressById(int id)
@@ -119,6 +147,11 @@ namespace TMS.Dal.MEMORY
         }
 
         public int CountAllCustomers()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IEnumerable<Role> GetAllRoles()
         {
             throw new System.NotImplementedException();
         }

@@ -90,6 +90,11 @@ namespace TMS.Controllers
 
                     return RedirectToAction("index", "Home");
                 }
+                else
+                {
+                    TempData["errormessage"] = "Wrong credentials!";
+                    return this.View(model);
+                }
             }
             return View(model);
         }
@@ -294,6 +299,110 @@ namespace TMS.Controllers
             }
             TempData["errormessage"] = "You dont have permission to do this!";
             return RedirectToAction("Profile", "Account");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [Route("Accounts")]
+        public IActionResult Accounts()
+        {
+            IEnumerable<Account> accounts =  this._account.GetAllAccounts();
+            return View(accounts);
+        }
+
+        [HttpGet("Account")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult Account()
+        {
+            ProfileViewModel model = new ProfileViewModel(this._account.GetAllRoles());
+
+            return View(model);
+        }
+
+        [HttpGet("EditAccount")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditAccount(int id)
+        {
+            ProfileViewModel model = new ProfileViewModel(this._account.GetAccountById(id), this._account.GetAllRoles());
+            return View("Account", model);
+        }
+
+        [HttpPost("UpdateAccount")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult UpdateAccount(ProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Account account = model.CopyTo();
+                if (this._account.AdminUpdateAccount(account))
+                {
+                    TempData["message"] = "Succesfully updated account!";
+                    return RedirectToAction("EditAccount", new { id = model.Id });
+                }
+
+                TempData["errormessage"] = "Could not update account!";
+                return RedirectToAction("EditAccount", new { id = model.Id });
+            }
+            return View("Account", model);
+        }
+
+        [HttpPost("CreateAccount")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateAccount(ProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (model.Password != null)
+                    {
+                        Account account = model.CopyTo();
+                        if (this._account.CreateAccount(account))
+                        {
+                            TempData["message"] = "Account has been created!";
+                            return RedirectToAction("Accounts");
+                        }
+                        else
+                        {
+                            TempData["errormessage"] = "Account cannot be created!";
+                            return RedirectToAction("Accounts");
+                        }
+                    }
+                    else
+                    {
+                        Account tmp = model.CopyTo();
+                        Account account = new Account
+                        {
+                            Id = tmp.Id,
+                            Email = tmp.Email,
+                            FirstName = tmp.FirstName,
+                            LastName = tmp.LastName,
+                            PhoneNumber = tmp.PhoneNumber,
+                            Role = new Role
+                            {
+                                Id = tmp.Role.Id,
+                            }
+                        };
+
+                        if (this._account.CreateAccount(account))
+                        {
+                            TempData["message"] = "Account has been created!";
+                            return RedirectToAction("Accounts");
+                        }
+                        else
+                        {
+                            TempData["errormessage"] = "Account cannot be created!";
+                            return RedirectToAction("Accounts");
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    //Giving me a sql exception. just for practice I dont handle the given exception.
+                    TempData["errormessage"] = e.Message;
+                }
+            }
+            return RedirectToAction("Account", model);
         }
     }
 }

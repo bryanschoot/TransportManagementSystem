@@ -1,4 +1,5 @@
-﻿using TMS.Model;
+﻿using System.Collections.Generic;
+using TMS.Model;
 
 namespace TMS.Dal.Interface
 {
@@ -6,13 +7,19 @@ namespace TMS.Dal.Interface
     {
         bool IsAccountValid(string email, string password);
         bool DoesEmailExist(string email);
-        Account GetAccountByEmail(string email);
-        Account GetAccountById(int id);
         bool UpdateAccount(Account account);
-        Address GetAddressById(int id);
         bool UpdateAddress(Address address);
         bool DeleteAddress(int id);
         bool CreateAddress(Address address, int id);
+        bool AdminUpdateAccount(Account account);
+        bool CreateAccount(Account account);
+
+        Account GetAccountByEmail(string email);
+        Account GetAccountById(int id);
+        Address GetAddressById(int id);
+
         int CountAllCustomers();
+
+        IEnumerable<Role> GetAllRoles();
     }
 }

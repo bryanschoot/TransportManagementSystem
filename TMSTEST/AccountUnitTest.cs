@@ -11,8 +11,8 @@ namespace TMSTEST
         private TMS.Factory.Factory _factory;
         private IAccountLogic accountLogic;
 
-        private List<Account> accounts = new List<Account>();
-        private List<Address> addresses = new List<Address>();
+        private static List<Account> accounts = new List<Account>();
+        private static List<Address> addresses = new List<Address>();
 
         public AccountUnitTest()
         {
@@ -32,6 +32,7 @@ namespace TMSTEST
             accounts.Add(new Account { Id = 2, Email = "bryan@test.nl", Password = "bryantest123", FirstName = "Bryan", LastName = "Schoot", PhoneNumber = "0681322803", Role = new Role(2, "Employee"), Address = addresses, });
             accounts.Add(new Account { Id = 3, Email = "sven@test.nl", Password = "sventest123", FirstName = "Sven", LastName = "Kloon", PhoneNumber = "0681322973", Role = new Role(3, "Customer"), Address = addresses, });
             accounts.Add(new Account { Id = 4, Email = "melle@test.nl", Password = "melletest123", FirstName = "Melle", LastName = "Regels", PhoneNumber = "0685842973", Role = new Role(3, "Customer"), Address = addresses, });
+            accounts.Add(new Account { Id = 5, Email = "jasper@test.nl", Password = "jaspertest123", FirstName = "Jasper", LastName = "Lol", PhoneNumber = "0685842973", Role = new Role(3, "Customer"), Address = addresses, });
         }
 
         public void initilizeAddress()
@@ -71,6 +72,38 @@ namespace TMSTEST
         }
         //End
 
+        //Test function UpdateAccount
+        [TestMethod]
+        public void UpdateAccountTest()
+        {
+            bool check = this._factory.AccountLogic().UpdateAccount(accounts[4]);
+            Assert.IsTrue(check);
+        }
+
+        [TestMethod]
+        public void UpdateAccountFailTest()
+        {
+            bool check = this._factory.AccountLogic().UpdateAccount(null);
+            Assert.IsFalse(check);
+        }
+        //End
+
+        //Test function AdminUpdateAccount
+        [TestMethod]
+        public void AdminUpdateAccountTest()
+        {
+            bool check = this._factory.AccountLogic().UpdateAccount(accounts[4]);
+            Assert.IsTrue(check);
+        }
+
+        [TestMethod]
+        public void AdminUpdateAccountFailTest()
+        {
+            bool check = this._factory.AccountLogic().UpdateAccount(null);
+            Assert.IsFalse(check);
+        }
+        //End
+
         //Test function GetAccountByEmail
         [TestMethod]
         public void GetAccountByEmailEqualTest()
@@ -88,7 +121,7 @@ namespace TMSTEST
             Account expectedAccount = accounts[0];
 
             Assert.IsNull(requestedAccount);
-            Assert.AreNotEqual(requestedAccount, expectedAccount);
+            //Assert.AreNotEqual(requestedAccount, expectedAccount);
         }
         //End
 

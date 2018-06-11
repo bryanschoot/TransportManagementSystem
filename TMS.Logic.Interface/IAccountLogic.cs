@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMS.Model;
 
 namespace TMS.Logic.Interface
@@ -7,13 +8,22 @@ namespace TMS.Logic.Interface
     {
         bool DoesEmailExist(string email);
         bool IsAccountValid(string email, string password);
-        Account GetAccountByEmail(string email);
-        Account GetAccountById(int id);
         bool UpdateAccount(Account account);
-        Address GetAddressById(int id, int accountid);
+        bool AdminUpdateAccount(Account account);
+        bool CreateAccount(Account account);
+
+        bool CreateAddress(Address address, int id);
         bool UpdateAddress(Address address);
         bool DeleteAddress(int id);
-        bool CreateAddress(Address address, int id);
+
+        Account GetAccountByEmail(string email);
+        Account GetAccountById(int id);
+
+        Address GetAddressById(int id, int accountid);
+
         int CountAllCustomers();
+
+        IEnumerable<Account> GetAllAccounts();
+        IEnumerable<Role> GetAllRoles();
     }
 }
