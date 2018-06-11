@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMS.Logic.Interface;
+using TMS.Logic.Validation;
 using TMS.Model;
 using TMS.Model.Exceptions;
 using TMS.Repositroy.Interface;
@@ -11,11 +12,13 @@ namespace TMS.Logic
     {
         private IAccountRepository Repository { get; }
         private HashLogic Hash;
+        private Validation.Validation Validation;
 
         public AccountLogic(IAccountRepository repository)
         {
             this.Repository = repository;
             this.Hash = new HashLogic();
+            this.Validation = new Validation.Validation();
         }
 
         public bool IsAccountValid(string email, string password)
@@ -30,7 +33,12 @@ namespace TMS.Logic
 
         public Account GetAccountByEmail(string email)
         {
-            return this.Repository.GetAccountByEmail(email);
+            if (!this.Validation.IsValid(email))
+            {
+                new AccountException("Email is not valid.");
+            }
+            Account account = this.Repository.GetAccountByEmail(email);
+            return account;
         }
 
         public Account GetAccountById(int id)

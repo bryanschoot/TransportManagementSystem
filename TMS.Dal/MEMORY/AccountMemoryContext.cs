@@ -112,7 +112,8 @@ namespace TMS.Dal.MEMORY
 
         public Account GetAccountById(int id)
         {
-            throw new System.NotImplementedException();
+            Account account = accounts.FirstOrDefault(a => a.Id == id);
+            return account;
         }
 
         public bool UpdateAccount(Account account)

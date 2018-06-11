@@ -33,6 +33,7 @@ namespace TMSTEST
             accounts.Add(new Account { Id = 3, Email = "sven@test.nl", Password = "sventest123", FirstName = "Sven", LastName = "Kloon", PhoneNumber = "0681322973", Role = new Role(3, "Customer"), Address = addresses, });
             accounts.Add(new Account { Id = 4, Email = "melle@test.nl", Password = "melletest123", FirstName = "Melle", LastName = "Regels", PhoneNumber = "0685842973", Role = new Role(3, "Customer"), Address = addresses, });
             accounts.Add(new Account { Id = 5, Email = "jasper@test.nl", Password = "jaspertest123", FirstName = "Jasper", LastName = "Lol", PhoneNumber = "0685842973", Role = new Role(3, "Customer"), Address = addresses, });
+            accounts.Add(new Account { Id = 5, Email = "ruud@test.nl", Password = "ruudtest123", FirstName = "Ruud", LastName = "Naam", PhoneNumber = "0663242973", Role = new Role(3, "Customer"), Address = addresses, });
         }
 
         public void initilizeAddress()
@@ -101,6 +102,15 @@ namespace TMSTEST
         {
             bool check = this._factory.AccountLogic().UpdateAccount(null);
             Assert.IsFalse(check);
+        }
+        //End
+
+        //Test function CreateAccount
+        [TestMethod]
+        public void CreateAccount()
+        {
+            bool createAccount = this._factory.AccountLogic().CreateAccount(accounts[5]);
+            Assert.IsTrue(createAccount);
         }
         //End
 

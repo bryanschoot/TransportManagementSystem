@@ -51,6 +51,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccountUnitTest.cs" />
     <Compile Include="AccountIntegrationTest.cs" />
+    <Compile Include="OrderUnitTest.cs" />
+    <Compile Include="OrderIntergrationTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
