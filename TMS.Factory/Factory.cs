@@ -64,5 +64,50 @@ namespace TMS.Factory
                 default: throw new NotImplementedException();
             }
         }
+
+        /// <summary>
+        /// Creates the vehiclelogic (Everything related to orders vehicles: Create, read, update, delete and many more.)
+        /// </summary>
+        /// <returns></returns>
+        public IVehicleLogic VehicleLogic()
+        {
+            switch (this.context)
+            {
+                case "MSSQL": return new VehicleLogic(new VehicleRepository(new VehicleMSSQLContext(this.connectionstring)));
+                case "LOCAL": return new VehicleLogic(new VehicleRepository(new VehicleMSSQLContext(this.connectionstring)));
+                case "MEMORY": return new VehicleLogic(new VehicleRepository(new VehicleMemoryContext()));
+                default: throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Creates the pickorderlogic (Everything related to pickorders example: Create, read, update, delete and many more.)
+        /// </summary>
+        /// <returns></returns>
+        public IPickOrderLogic PickOrderLogic()
+        {
+            switch (this.context)
+            {
+                case "MSSQL": return new PickOrderLogic(new PickOrderRepository(new PickOrderMSSQLContext(this.connectionstring)));
+                case "LOCAL": return new PickOrderLogic(new PickOrderRepository(new PickOrderMSSQLContext(this.connectionstring)));
+                case "MEMORY": return new PickOrderLogic(new PickOrderRepository(new PickOrderMemoryContext()));
+                default: throw new NotImplementedException();
+            }
+        }
+
+        /// <summary>
+        /// Creates the ridelogic (Everything related to rides example: Create, read, update, delete and many more.)
+        /// </summary>
+        /// <returns></returns>
+        public IRideLogic RideLogic()
+        {
+            switch (this.context)
+            {
+                case "MSSQL": return new RideLogic(new RideRepository(new RideMSSQLContext(this.connectionstring)));
+                case "LOCAL": return new RideLogic(new RideRepository(new RideMSSQLContext(this.connectionstring)));
+                case "MEMORY": return new RideLogic(new RideRepository(new RideMemoryContext()));
+                default: throw new NotImplementedException();
+            }
+        }
     }
 }

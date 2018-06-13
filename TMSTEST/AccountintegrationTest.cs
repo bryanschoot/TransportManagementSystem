@@ -42,6 +42,8 @@ namespace TMSTEST
         public void initilizeAddress()
         {
             addresses.Add(new Address { Id = 1, Country = "Netherlands", City = "Arnhem", StreetName = "Marxsingel", StreetNumber = "10", ZipCode = "6836PZ" });
+            addresses.Add(new Address { Id = 2, Country = "Netherlands", City = "Nijmegen", StreetName = "Koningstraat", StreetNumber = "31A", ZipCode = "6855NI" });
+            addresses.Add(new Address { Id = 3, Country = "Germany", City = "Strabe", StreetName = "Strafe", StreetNumber = "322", ZipCode = "6123DE" });
         }
 
         //Test function register and login
@@ -77,6 +79,32 @@ namespace TMSTEST
             //Edit account
             bool check = this._factory.AccountLogic().UpdateAccount(accounts[6]);
             Assert.IsTrue(check);
+        }
+        //End
+
+        //Test function edit address create address then update address and eventually delete address
+        [TestMethod]
+        public void UpdateAddressTest()
+        {
+            //Try to find a non existing address
+            Address address = this._factory.AccountLogic().GetAddressById(addresses[1].Id, accounts[0].Id);
+            Assert.IsNull(address);
+
+            //Create the current address that does not exist.
+            bool create = this._factory.AccountLogic().CreateAddress(addresses[1], accounts[0].Id);
+            Assert.IsTrue(create);
+
+            //Update address
+            bool update = this._factory.AccountLogic().UpdateAddress(addresses[2]);
+            Assert.IsTrue(update);
+
+            //Delete address
+            bool delete = this._factory.AccountLogic().DeleteAddress(addresses[2].Id);
+            Assert.IsTrue(delete);
+
+            //Try to find a non existing address
+            Address address2 = this._factory.AccountLogic().GetAddressById(addresses[2].Id, accounts[0].Id);
+            Assert.IsNull(address2);
         }
         //End
     }

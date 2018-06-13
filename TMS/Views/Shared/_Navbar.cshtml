@@ -15,22 +15,26 @@
                 <li>
                     <a asp-area="" asp-controller="Home" asp-action="News" class="nav-item nav-link active">News</a>
                 </li>
+                <li class="nav-item dropdown active">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Manage
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        @{
+                            if (User.IsInRole("Admin"))
+                            {
+                                <a asp-area="" asp-controller="Account" asp-action="Accounts" class="dropdown-item">Accounts</a>
+                                <a asp-area="" asp-controller="Vehicle" asp-action="Vehicles" class="dropdown-item">Accounts</a>
+                            }
+                            if (User.IsInRole("Employee") || User.IsInRole("Admin"))
+                            {
+                                    <a asp-area="" asp-controller="PickOrder" asp-action="PickOrders" class="dropdown-item">Pickorders</a>
+                                    <a asp-area="" asp-controller="Ride" asp-action="Rides" class="dropdown-item">Rides</a>
+                            }
+                        }
+                    </div>
+                </li>
                 @{
-                    if (User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Account" asp-action="Accounts" class="nav-item nav-link active">Accounts</a>
-                        </li>
-                    }
-                    if (User.IsInRole("Employee") || User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="" asp-action="" class="nav-item nav-link active">Pickorders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="" asp-action="" class="nav-item nav-link active">Rides</a>
-                        </li>
-                    }
                     if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">

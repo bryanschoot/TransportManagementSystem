@@ -12,11 +12,8 @@ namespace TMS.Dal.MEMORY
 
         public AccountMemoryContext()
         {
-            if (accounts == null)
-            {
                 initilizeAddress();
-            }
-            initilizeAccounts();
+                initilizeAccounts();
         }
 
         public void initilizeAccounts()
@@ -68,32 +65,18 @@ namespace TMS.Dal.MEMORY
 
         public bool IsAccountValid(string email, string password)
         {
-            if (accounts.Any(a => a.Email == email && a.Password == password))
-            {
-                return true;
-            }
-
-            return false;
+            return accounts.Any(a => a.Email == email && a.Password == password);
         }
 
         public bool DoesEmailExist(string email)
         {
-            if (accounts.Any(a => a.Email == email))
-            {
-                return true;
-            }
-            return false;
+            return accounts.Any(a => a.Email == email);
         }
 
         public bool AdminUpdateAccount(Account account)
         {
             accounts[2] = account;
-            if (accounts[2] == account)
-            {
-                return true;
-            }
-
-            return false;
+            return accounts[2] == account;
         }
 
         public bool CreateAccount(Account account)
@@ -119,32 +102,35 @@ namespace TMS.Dal.MEMORY
         public bool UpdateAccount(Account account)
         {
             accounts[2] = account;
-            if (accounts[2] == account)
-            {
-                return true;
-            }
-
-            return false;
+            return accounts[2] == account;
         }
 
         public Address GetAddressById(int id)
         {
-            throw new System.NotImplementedException();
+            Address address = addresses.FirstOrDefault(a => a.Id == id);
+            return address;
         }
 
         public bool UpdateAddress(Address address)
         {
-            throw new System.NotImplementedException();
+            addresses[1] = address;
+            return addresses[1] == address;
         }
 
         public bool DeleteAddress(int id)
         {
-            throw new System.NotImplementedException();
+            int odlCount = addresses.Count();
+            addresses = addresses.Where(a => a.Id != id).ToList();
+
+            return odlCount > addresses.Count();
         }
 
         public bool CreateAddress(Address address, int id)
         {
-            throw new System.NotImplementedException();
+            int odlCount = addresses.Count();
+            addresses.Add(address);
+
+            return odlCount < addresses.Count();
         }
 
         public int CountAllCustomers()

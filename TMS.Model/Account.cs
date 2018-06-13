@@ -10,17 +10,18 @@ namespace TMS.Model
         {
         }
 
-        public Account(int id, string email, string password, string firstName, string lastName, string phoneNumber, List<Address> address, Role role, List<Order> orders)
+        public Account(int id, string email, string password, string firstName, string lastName, string phoneNumber, List<Address> address, Role role, List<Order> orders, List<Ride> rides)
         {
-            this.Id = id;
-            this.Email = email;
-            this.Password = password;
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.PhoneNumber = phoneNumber;
-            this.Address = address;
-            this.Role = role;
-            this.Orders = orders;
+            Id = id;
+            Email = email;
+            Password = password;
+            FirstName = firstName;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Address = address;
+            Role = role;
+            Orders = orders;
+            Rides = rides;
         }
 
         public int Id { get; set; }
@@ -41,6 +42,6 @@ namespace TMS.Model
 
         public List<Order> Orders { get; set; }
 
-        //public List<Ride> Rides { get; set; }
+        public List<Ride> Rides { get; set; }
     }
 }

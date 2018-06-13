@@ -25,8 +25,8 @@ namespace TMSTEST
         [TestInitialize]
         public void initialize()
         {
-            initilizeOrders();
             initilizeAddress();
+            initilizeOrders();
             initilizeAccounts();
         }
 
@@ -42,8 +42,11 @@ namespace TMSTEST
 
         public void initilizeOrders()
         {
-            orders.Add(new Order { Id = 1, Description = "Pallet", Length = 120f, Width = 120f, Height = 120f, Weight = 12, OrderDate = new DateTime(2018, 06, 01), DeliverDate = new DateTime(2018, 05, 05), Address = addresses[0]});
-            orders.Add(new Order { Id = 2, Description = "Box", Length = 50f, Width = 50f, Height = 50f, Weight = 2, OrderDate = new DateTime(2018, 05, 10), DeliverDate = new DateTime(2018, 05, 22), Address = addresses[1]});
+            orders.Add(new Order { Id = 1, Description = "Pallet", Length = 120f, Width = 120f, Height = 120f, Weight = 12, OrderDate = new DateTime(2018, 06, 01), DeliverDate = new DateTime(2018, 05, 05), Address = addresses[0] });
+            orders.Add(new Order { Id = 2, Description = "Box", Length = 50f, Width = 50f, Height = 50f, Weight = 2, OrderDate = new DateTime(2018, 05, 10), DeliverDate = new DateTime(2018, 05, 22), Address = addresses[1] });
+            orders.Add(new Order { Id = 3, Description = "Plane", Length = 5000f, Width = 5000f, Height = 505f, Weight = 200, OrderDate = new DateTime(2018, 05, 10), DeliverDate = new DateTime(2018, 05, 22), Address = addresses[1] });
+            orders.Add(new Order { Id = 4, Description = "Car", Length = 5000f, Width = 5000f, Height = 505f, Weight = 200, OrderDate = new DateTime(2018, 05, 10), DeliverDate = new DateTime(2018, 05, 22), Address = addresses[1] });
+            orders.Add(new Order { Id = 5, Description = "Couch", Length = 5000f, Width = 5000f, Height = 505f, Weight = 200, OrderDate = new DateTime(2018, 05, 10), DeliverDate = new DateTime(2018, 05, 22), Address = addresses[1] });
         }
 
         public void initilizeAddress()
@@ -53,10 +56,23 @@ namespace TMSTEST
         }
 
         [TestMethod]
-        public void CreateUpdateOrder()
+        public void CrudOrderTest()
         {
-            Order order = this._factory.OrderLogic().GetOrderById(orders[0].Id, accounts[0].Id);
+            //Check if order exist
+            Order order = this._factory.OrderLogic().GetOrderById(orders[3].Id, accounts[0].Id);
             Assert.IsNull(order);
+
+            //Create order
+            bool create = this._factory.OrderLogic().CreateOrder(orders[3], accounts[0].Id);
+            Assert.IsTrue(create);
+
+            //Update order
+            bool update = this._factory.OrderLogic().UpdateOrder(orders[4]);
+            Assert.IsTrue(update);
+
+            //Delete order
+            bool delete = this._factory.OrderLogic().DeleteOrderById(orders[4].Id);
+            Assert.IsTrue(delete);
         }
     }
 }
