@@ -8,17 +8,17 @@ namespace TMS.Repository
 {
     public class AccountRepository : IAccountRepository
     {
-        private IAccountContext Contex { get; }
+        private readonly IAccountContext _contex;
 
         public AccountRepository(IAccountContext context)
         {
-            this.Contex = context;
+            this._contex = context;
         }
 
         #region NotImplemented
         public IEnumerable<Account> All()
         {
-            return this.Contex.All();
+            return this._contex.All();
         }
 
         public Model.Account GetById(int id)
@@ -54,67 +54,67 @@ namespace TMS.Repository
 
         public bool IsAccountValid(string email, string password)
         {
-            return this.Contex.IsAccountValid(email, password);
+            return this._contex.IsAccountValid(email, password);
         }
 
         public bool DoesEmailExist(string email)
         {
-            return this.Contex.DoesEmailExist(email);
+            return this._contex.DoesEmailExist(email);
         }
 
         public Account GetAccountByEmail(string email)
         {
-            return this.Contex.GetAccountByEmail(email);
+            return this._contex.GetAccountByEmail(email);
         }
 
         public Account GetAccountById(int id)
         {
-            return this.Contex.GetAccountById(id);
+            return this._contex.GetAccountById(id);
         }
 
         public bool UpdateAccount(Account account)
         {
-            return this.Contex.UpdateAccount(account);
+            return this._contex.UpdateAccount(account);
         }
 
         public bool AdminUpdateAccount(Account account)
         {
-            return this.Contex.AdminUpdateAccount(account);
+            return this._contex.AdminUpdateAccount(account);
         }
 
         public bool CreateAccount(Account account)
         {
-            return this.Contex.CreateAccount(account);
+            return this._contex.CreateAccount(account);
         }
 
         public Address GetAddressById(int id)
         {
-            return this.Contex.GetAddressById(id);
+            return this._contex.GetAddressById(id);
         }
 
         public bool UpdateAddress(Address address)
         {
-            return this.Contex.UpdateAddress(address);
+            return this._contex.UpdateAddress(address);
         }
 
         public bool DeleteAddress(int id)
         {
-            return this.Contex.DeleteAddress(id);
+            return this._contex.DeleteAddress(id);
         }
 
         public bool CreateAddress(Address address, int id)
         {
-            return this.Contex.CreateAddress(address, id);
+            return this._contex.CreateAddress(address, id);
         }
 
         public int CountAllCustomers()
         {
-            return this.Contex.CountAllCustomers();
+            return this._contex.CountAllCustomers();
         }
 
         public IEnumerable<Role> GetAllRoles()
         {
-            return this.Contex.GetAllRoles();
+            return this._contex.GetAllRoles();
         }
     }
 }

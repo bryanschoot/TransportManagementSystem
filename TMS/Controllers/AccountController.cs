@@ -333,15 +333,29 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                Account account = model.CopyTo();
-                if (this._account.AdminUpdateAccount(account))
+                Account checkAccount = this._account.GetAccountById(model.Id);
+
+                bool changed = checkAccount.Email != model.Email || checkAccount.FirstName != model.FirstName || checkAccount.LastName != model.LastName || checkAccount.PhoneNumber != model.PhoneNumber || checkAccount.Role.Id != model.SelectedRole;
+
+                if (changed)
                 {
-                    TempData["message"] = "Succesfully updated account!";
+                    Account account = model.CopyTo();
+
+                    if (this._account.AdminUpdateAccount(account))
+                    {
+                        TempData["message"] = "Succesfully updated account!";
+                        return RedirectToAction("EditAccount", new { id = model.Id });
+                    }
+
+                    TempData["errormessage"] = "Could not update account!";
                     return RedirectToAction("EditAccount", new { id = model.Id });
                 }
-
-                TempData["errormessage"] = "Could not update account!";
-                return RedirectToAction("EditAccount", new { id = model.Id });
+                else
+                {
+                    TempData["errormessage"] = "Could not update account because you did not change anything!";
+                    return RedirectToAction("EditAccount", new { id = model.Id });
+                }
+                
             }
             return View("Account", model);
         }

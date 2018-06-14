@@ -36,7 +36,17 @@ namespace TMS.Controllers
 
         public IActionResult EditVehicle(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                VehicleViewModel model = new VehicleViewModel(this._vehicle.GetById(id));
+
+                return View("Vehicle", model);
+            }
+            catch (Exception e)
+            {
+                TempData["errormessage"] = e.Message;
+                return View("Vehicle");
+            }
         }
 
         public IActionResult DeleteVehicle(int id)
@@ -56,15 +66,16 @@ namespace TMS.Controllers
             if (ModelState.IsValid)
             {
                 Vehicle vehicle = model.CopyTo();
+
                 try
                 {
                     if (this._vehicle.CreateVehicle(vehicle))
                     {
                         TempData["message"] = "Vehicle succesfully created!";
-                        return View("Vehicles");
+                        return RedirectToAction("Vehicles");
                     }
                     TempData["errormessage"] = "Vehicle could not been created!";
-                    return View("Vehicles");
+                    return RedirectToAction("Vehicles");
                 }
                 catch (Exception e)
                 {
@@ -77,9 +88,41 @@ namespace TMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateVehicle()
+        public IActionResult UpdateVehicle(VehicleViewModel model)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Vehicle checkVehicle = this._vehicle.GetById(model.Id);
+                    bool changed = checkVehicle.Brand != model.Brand || checkVehicle.Type != model.Type || checkVehicle.Fuel != model.Fuel || checkVehicle.LicensePlate != model.LicensePlate || checkVehicle.Length != model.Length || checkVehicle.Width != model.Width || checkVehicle.Height != model.Height;
+
+                    if (changed)
+                    {
+                        Vehicle vehicle = model.CopyTo();
+                        if (this._vehicle.UpdateVehicle(vehicle))
+                        {
+                            TempData["message"] = "Vehicle succesfully updated!";
+                            return RedirectToAction("Vehicles");
+                        }
+                        TempData["errormessage"] = "Vehicle could not been updated!";
+                        return RedirectToAction("Vehicles");
+                    }
+                    else
+                    {
+                        TempData["errormessage"] = "Vehicle could not been updated because you did not change a thing!";
+                        return View("Vehicle", model);
+                    }
+                    
+                }
+                catch (Exception e)
+                {
+                    TempData["errormessage"] = e.Message;
+                    return View("Vehicles");
+                }
+            }
+
+            return View("Vehicle", model);
         }
     }
 }

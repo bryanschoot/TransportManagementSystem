@@ -10,25 +10,25 @@ namespace TMS.Logic
 {
     public class AccountLogic : IAccountLogic
     {
-        private IAccountRepository Repository { get; }
+        private readonly IAccountRepository _repository;
         private HashLogic Hash;
         private Validation.Validation Validation;
 
         public AccountLogic(IAccountRepository repository)
         {
-            this.Repository = repository;
+            this._repository = repository;
             this.Hash = new HashLogic();
             this.Validation = new Validation.Validation();
         }
 
         public bool IsAccountValid(string email, string password)
         {
-            return this.Repository.IsAccountValid(email, password);
+            return this._repository.IsAccountValid(email, password);
         }
 
         public bool DoesEmailExist(string email)
         {
-            return this.Repository.DoesEmailExist(email);
+            return this._repository.DoesEmailExist(email);
         }
 
         public Account GetAccountByEmail(string email)
@@ -37,7 +37,7 @@ namespace TMS.Logic
             {
                 new AccountException("Email is not valid.");
             }
-            Account account = this.Repository.GetAccountByEmail(email);
+            Account account = this._repository.GetAccountByEmail(email);
             return account;
         }
 
@@ -47,7 +47,7 @@ namespace TMS.Logic
             {
                 new AccountException("Id cannot be empty");
             }
-            return this.Repository.GetAccountById(id);
+            return this._repository.GetAccountById(id);
         }
 
         public bool UpdateAccount(Account account)
@@ -57,7 +57,7 @@ namespace TMS.Logic
                 new AccountException("Account = null.");
                 return false;
             }
-            return this.Repository.UpdateAccount(account);
+            return this._repository.UpdateAccount(account);
         }
 
         public bool AdminUpdateAccount(Account account)
@@ -67,7 +67,7 @@ namespace TMS.Logic
                 new AccountException("Account = null.");
                 return false;
             }
-            return this.Repository.AdminUpdateAccount(account);
+            return this._repository.AdminUpdateAccount(account);
         }
 
         public bool CreateAccount(Account account)
@@ -77,12 +77,12 @@ namespace TMS.Logic
                 new AccountException("Account = null.");
                 return false;
             }
-            return this.Repository.CreateAccount(account);
+            return this._repository.CreateAccount(account);
         }
 
         public Address GetAddressById(int id, int accountid)
         {
-            Address address = this.Repository.GetAddressById(id);
+            Address address = this._repository.GetAddressById(id);
 
             if (address == null)
             {
@@ -101,32 +101,32 @@ namespace TMS.Logic
 
         public bool UpdateAddress(Address address)
         {
-            return this.Repository.UpdateAddress(address);
+            return this._repository.UpdateAddress(address);
         }
 
         public bool DeleteAddress(int id)
         {
-            return this.Repository.DeleteAddress(id);
+            return this._repository.DeleteAddress(id);
         }
 
         public bool CreateAddress(Address address, int id)
         {
-            return this.Repository.CreateAddress(address, id);
+            return this._repository.CreateAddress(address, id);
         }
 
         public int CountAllCustomers()
         {
-           return this.Repository.CountAllCustomers();
+           return this._repository.CountAllCustomers();
         }
 
         public IEnumerable<Account> GetAllAccounts()
         {
-            return this.Repository.All();
+            return this._repository.All();
         }
 
         public IEnumerable<Role> GetAllRoles()
         {
-            return this.Repository.GetAllRoles();
+            return this._repository.GetAllRoles();
         }
 
         public string CreateHash(string tobehashed)

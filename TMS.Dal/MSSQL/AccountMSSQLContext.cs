@@ -25,14 +25,11 @@ namespace TMS.Dal.MSSQL
             {
                 connection.Open();
                 return true;
-
             }
             catch (Exception exception)
             {
                 throw new Exception("There is no connection");
-                return false;
             }
-
         }
 
         #region NotImplemented
@@ -320,8 +317,7 @@ namespace TMS.Dal.MSSQL
         /// <returns>bool true or false</returns>
         public bool AdminUpdateAccount(Account account)
         {
-            this._query =
-                "UPDATE Account SET Account.Email=@Email, Account.FirstName=@FirstName, Account.LastName=@LastName, Account.PhoneNumber=@PhoneNumber, Account.RoleId=@RoleId WHERE Account.Id=@Id";
+            this._query = "UPDATE Account SET Account.Email=@Email, Account.FirstName=@FirstName, Account.LastName=@LastName, Account.PhoneNumber=@PhoneNumber, Account.RoleId=@RoleId WHERE Account.Id=@Id";
 
             using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {

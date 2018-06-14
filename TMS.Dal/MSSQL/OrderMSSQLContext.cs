@@ -10,13 +10,13 @@ namespace TMS.Dal.MSSQL
 {
     public class OrderMSSQLContext : IOrderContext
     {
-        private readonly string _connestionstring;
+        private readonly string _connectionstring;
         private string _query;
         private string _procedure;
 
-        public OrderMSSQLContext(string connestionstring)
+        public OrderMSSQLContext(string connectionstring)
         {
-            this._connestionstring = connestionstring;
+            this._connectionstring = connectionstring;
         }
 
         public IEnumerable<Order> All()
@@ -34,7 +34,7 @@ namespace TMS.Dal.MSSQL
             Order order = null;
             this._query = "SELECT [Order].id as OrderId, [Order].Description, [Order].DeliverDate, [Order].Orderdate, [Order].Length, [Order].Width, [Order].Height, [Order].Weight, [Address].Id as AddressId, [Address].Country, [Address].City, [Address].StreetName, [Address].StreetNumber, [Address].ZipCode, [Account].Id as AccountId FROM [Order] INNER JOIN Address on [Order].AddressId = [Address].Id INNER JOIN Account on [Order].AccountId = [Account].Id WHERE [Order].Id = @Id;";
 
-            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {
                 using (SqlCommand cmd = new SqlCommand(this._query, conn))
                 {
@@ -89,7 +89,7 @@ namespace TMS.Dal.MSSQL
         {
             this._procedure = "spCreateOrder";
 
-            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {
                 using (SqlCommand cmd = new SqlCommand(this._procedure, conn))
                 {
@@ -122,7 +122,7 @@ namespace TMS.Dal.MSSQL
         {
             this._procedure = "spUpdateOrder";
 
-            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {
                 using (SqlCommand cmd = new SqlCommand(this._procedure, conn))
                 {
@@ -172,7 +172,7 @@ namespace TMS.Dal.MSSQL
             List<Order> orders = new List<Order>();
             this._query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate, Address.Country, Address.City, Address.StreetName, Address.StreetNumber, Address.ZipCode FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id INNER JOIN Address ON [Order].AddressId = Address.id WHERE Account.Id=@Id";
 
-            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {
                 using (SqlCommand cmd = new SqlCommand(this._query, conn))
                 {
@@ -208,7 +208,7 @@ namespace TMS.Dal.MSSQL
             //So not safe
             this._query = "DELETE FROM [Order] WHERE [Order].Id = @id;";
 
-            using (SqlConnection conn = new SqlConnection(this._connestionstring))
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {
                 using (SqlCommand cmd = new SqlCommand(this._query, conn))
                 {
@@ -222,6 +222,21 @@ namespace TMS.Dal.MSSQL
                     }
 
                     return false;
+                }
+            }
+        }
+
+        public int CountAllOrders()
+        {
+            this._query = "SELECT COUNT (*) FROM [Order]";
+            int total = 0;
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+                    return (Int32)cmd.ExecuteScalar();
                 }
             }
         }

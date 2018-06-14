@@ -10,5 +10,6 @@ namespace TMS.Logic.Interface
         Order GetOrderById(int id, int accountId);
         bool DeleteOrderById(int id);
         bool UpdateOrder(Order order);
+        int CountAllOrders();
     }
 }

@@ -45,5 +45,10 @@ namespace TMS.Dal.MEMORY
         {
             throw new System.NotImplementedException();
         }
+
+        public int CountAllVehicles()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

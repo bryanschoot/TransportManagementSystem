@@ -7,5 +7,8 @@ namespace TMS.Logic.Interface
     {
         IEnumerable<Vehicle> GetAllVehicles();
         bool CreateVehicle(Vehicle vehicle);
+        Vehicle GetById(int id);
+        bool UpdateVehicle(Vehicle vehicle);
+        int CountAllVehicles();
     }
 }

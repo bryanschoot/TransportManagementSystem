@@ -93,5 +93,10 @@ namespace TMS.Dal.MEMORY
 
             return odlCount > addresses.Count();
         }
+
+        public int CountAllOrders()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

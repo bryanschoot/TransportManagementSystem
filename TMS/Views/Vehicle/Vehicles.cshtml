@@ -9,7 +9,7 @@
         <div class="col-md-4">
             <div class="card mb-5">
                 <div class="card-body">
-                    <h5 class="card-title text-center">Accounts</h5>
+                    <h5 class="card-title text-center">Vehicles</h5>
                     <hr />
                     <div class="row">
                         <div class="col">
@@ -30,13 +30,14 @@
             @Html.Partial("_Message")
             <div class="card mb-5">
                 <div class="card-body table-responsive">
-                    <h5 class="card-title text-center">All Accounts</h5>
+                    <h5 class="card-title text-center">All vehicles</h5>
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">Brand</th>
                                 <th scope="col">Type</th>
                                 <th scope="col">Feul</th>
+                                <th scope="col">License plate</th>
                                 <th scope="col">Space m3</th>
                                 <th scope="col">Actions</th>
                             </tr>
@@ -50,6 +51,7 @@
                                         <td>@vehicle.Brand</td>
                                         <td>@vehicle.Type</td>
                                         <td>@vehicle.Fuel</td>
+                                        <td>@vehicle.LicensePlate</td>
                                         <td>@vehicle.GetSpace()</td>
                                         <td>
                                             <a asp-controller="Vehicle" asp-action="EditVehicle" asp-route-id="@vehicle.Id">Edit</a>

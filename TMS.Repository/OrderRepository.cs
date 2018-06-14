@@ -8,11 +8,11 @@ namespace TMS.Repository
 {
     public class OrderRepository : IOrderRepository
     {
-        private IOrderContext Context { get; }
+        private readonly IOrderContext _context;
 
         public OrderRepository(IOrderContext context)
         {
-            this.Context = context;
+            this._context = context;
         }
 
         #region NotImplemented
@@ -23,7 +23,7 @@ namespace TMS.Repository
 
         public Order GetById(int id)
         {
-            return this.Context.GetById(id);
+            return this._context.GetById(id);
         }
 
         public bool Exists(Order entity)
@@ -33,12 +33,12 @@ namespace TMS.Repository
 
         public bool Insert(Order entity, int id)
         {
-            return this.Context.Insert(entity, id);
+            return this._context.Insert(entity, id);
         }
 
         public bool Update(Order entity)
         {
-            return this.Context.Update(entity);
+            return this._context.Update(entity);
         }
 
         public bool Delete(Order entity)
@@ -53,12 +53,17 @@ namespace TMS.Repository
 
         public List<Order> GetAllOrdersById(int id)
         {
-            return this.Context.GetAllOrdersById(id);
+            return this._context.GetAllOrdersById(id);
         }
 
         public bool DeleteById(int id)
         {
-            return this.Context.DeleteById(id);
+            return this._context.DeleteById(id);
+        }
+
+        public int CountAllOrders()
+        {
+            return this._context.CountAllOrders();
         }
 
         #endregion

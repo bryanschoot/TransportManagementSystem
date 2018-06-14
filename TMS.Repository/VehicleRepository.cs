@@ -21,7 +21,7 @@ namespace TMS.Repository
 
         public Vehicle GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return this._context.GetById(id);
         }
 
         public bool Exists(Vehicle entity)
@@ -36,7 +36,7 @@ namespace TMS.Repository
 
         public bool Update(Vehicle entity)
         {
-            throw new System.NotImplementedException();
+            return this._context.Update(entity);
         }
 
         public bool Delete(Vehicle entity)
@@ -52,6 +52,11 @@ namespace TMS.Repository
         public bool CreateVehicle(Vehicle vehicle)
         {
             return this._context.CreateVehicle(vehicle);
+        }
+
+        public int CountAllVehicles()
+        {
+            return this._context.CountAllVehicles();
         }
     }
 }

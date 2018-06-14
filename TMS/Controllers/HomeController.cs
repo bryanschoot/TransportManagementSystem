@@ -14,14 +14,14 @@ namespace TMS.Controllers
     {
         private Factory.Factory _factory;
         private IAccountLogic _account;
-        //private IVehicleLogic _vehicle;
+        private IVehicleLogic _vehicle;
         private IOrderLogic _order;
 
         public HomeController(IConfiguration config)
         {
             this._factory = new Factory.Factory(config);
             this._account = this._factory.AccountLogic();
-            //this._vehicle = this._factory.VehicleLogic();
+            this._vehicle = this._factory.VehicleLogic();
             this._order = this._factory.OrderLogic();
         }
 
@@ -30,8 +30,8 @@ namespace TMS.Controllers
             try
             {
                 ViewData["costumer"] = this._account.CountAllCustomers();
-                ViewData["trucks"] = 24; //this._vehicle.CountAllVehicles();
-                ViewData["orders"] = 216; //this._order.CountAllOrders();
+                ViewData["trucks"] = this._vehicle.CountAllVehicles();
+                ViewData["orders"] = this._order.CountAllOrders();
             }
             catch (Exception e)
             {

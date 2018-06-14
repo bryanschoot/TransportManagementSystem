@@ -7,5 +7,6 @@ namespace TMS.Repositroy.Interface
     {
         List<Order> GetAllOrdersById(int id);
         bool DeleteById(int id);
+        int CountAllOrders();
     }
 }

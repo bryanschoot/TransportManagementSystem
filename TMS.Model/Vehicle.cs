@@ -34,8 +34,7 @@
 
         public double GetSpace()
         {
-            return this.Length * this.Width * this.Height;
+            return (this.Length / 100) * (this.Width / 100 ) * (this.Height / 100);
         }
-
     }
 }

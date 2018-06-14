@@ -9,15 +9,15 @@ namespace TMS.Logic
 {
     public class OrderLogic : IOrderLogic
     {
-        private IOrderRepository Repository { get; }
+        private readonly IOrderRepository _repository;
 
         public OrderLogic(IOrderRepository repository)
         {
-            this.Repository = repository;
+            this._repository = repository;
         }
         public List<Order> GetAllOrdersById(int id)
         {
-            List<Order> orders = this.Repository.GetAllOrdersById(id);
+            List<Order> orders = this._repository.GetAllOrdersById(id);
             if (orders.Count <= 0)
             {
                 throw new NullReferenceException("There are no orders!");
@@ -27,13 +27,13 @@ namespace TMS.Logic
 
         public bool CreateOrder(Order model, int id)
         {
-            return this.Repository.Insert(model, id);
+            return this._repository.Insert(model, id);
         }
 
         public Order GetOrderById(int id, int accountId)
         {
 
-            Order order = this.Repository.GetById(id);
+            Order order = this._repository.GetById(id);
 
             if (order == null){return null;}
             if (order.Account.Id != accountId){return null;}
@@ -44,12 +44,17 @@ namespace TMS.Logic
         public bool DeleteOrderById(int id)
         {
             //TODO no check is account may delete the order with this id
-            return this.Repository.DeleteById(id);
+            return this._repository.DeleteById(id);
         }
 
         public bool UpdateOrder(Order order)
         {
-            return this.Repository.Update(order);
+            return this._repository.Update(order);
+        }
+
+        public int CountAllOrders()
+        {
+            return this._repository.CountAllOrders();
         }
     }
 }
