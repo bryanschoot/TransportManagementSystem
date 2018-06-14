@@ -1,0 +1,131 @@
+﻿@model VehicleViewModel
+
+@{
+    ViewBag.Title = "Vehicle";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Accounts</h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col">
+                            <a asp-controller="Vehicle" asp-action="Vehicles"><button class="btn btn-outline-dark btn-block btn-lg">Back to Vehicles</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @Html.Partial("_Message")
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Vehicles</h5>
+                    <hr />
+                    @{
+                        if (Model != null)
+                        {
+                            <form asp-controller="Vehicle" asp-action="UpdateVehicle" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input asp-for="Id" type="hidden" />
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="Brand">Brand:</label><br />
+                                        <input asp-for="Brand" type="text" class="form-control" placeholder="Brand of vehicle">
+                                        <span asp-validation-for="Brand" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Type">Type:</label>
+                                        <input asp-for="Type" type="text" class="form-control" placeholder="Type of vehicle (Truck)">
+                                        <span asp-validation-for="Type" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="LicensePlate">LicensePlate:</label>
+                                        <input asp-for="LicensePlate" type="text" class="form-control" placeholder="LicensePlate...">
+                                        <span asp-validation-for="LicensePlate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Fuel">Fuel:</label>
+                                        <input asp-for="Fuel" type="text" class="form-control" placeholder="Type of fuel...">
+                                        <span asp-validation-for="Fuel" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="Length">Length:</label>
+                                        <input asp-for="Length" type="text" class="form-control" placeholder="Length...">
+                                        <span asp-validation-for="Length" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Width">Width:</label>
+                                        <input asp-for="Width" type="text" class="form-control" placeholder="Width...">
+                                        <span asp-validation-for="Width" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Height">Height:</label>
+                                        <input asp-for="Height" type="text" class="form-control" placeholder="Height...">
+                                        <span asp-validation-for="Height" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Update</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-controller="Vehicle" asp-action="CreateVehicle" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="Brand">Brand:</label><br />
+                                        <input asp-for="Brand" type="text" class="form-control" placeholder="Brand of vehicle">
+                                        <span asp-validation-for="Brand" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Type">Type:</label>
+                                        <input asp-for="Type" type="text" class="form-control" placeholder="Type of vehicle (Truck)">
+                                        <span asp-validation-for="Type" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="LicensePlate">LicensePlate:</label>
+                                        <input asp-for="LicensePlate" type="text" class="form-control" placeholder="LicensePlate...">
+                                        <span asp-validation-for="LicensePlate" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Fuel">Fuel:</label>
+                                        <input asp-for="Fuel" type="text" class="form-control" placeholder="Type of fuel...">
+                                        <span asp-validation-for="Fuel" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label asp-for="Length">Length:</label>
+                                        <input asp-for="Length" type="text" class="form-control" placeholder="Length...">
+                                        <span asp-validation-for="Length" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Width">Width:</label>
+                                        <input asp-for="Width" type="text" class="form-control" placeholder="Width...">
+                                        <span asp-validation-for="Width" class="text-danger"></span>
+                                    </div>
+                                    <div class="col">
+                                        <label asp-for="Height">Height:</label>
+                                        <input asp-for="Height" type="text" class="form-control" placeholder="Height...">
+                                        <span asp-validation-for="Height" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Create</button>
+                            </form>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

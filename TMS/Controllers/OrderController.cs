@@ -30,11 +30,18 @@ namespace TMS.Controllers
         [HttpGet]
         public IActionResult Orders()
         {
-            int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
+            try
+            {
+                int id = Convert.ToInt32(User.Claims.Where(c => c.Type == "Id").Select(c => c.Value).SingleOrDefault());
+                List<Order> order = new List<Order>(this._order.GetAllOrdersById(id));
+                return View(order);
+            }
+            catch (Exception e)
+            {
+                TempData["errormessage"] = e.Message;
+                return View();
+            }
 
-            List<Order> order = new List<Order>(this._order.GetAllOrdersById(id));
-
-            return View(order);
         }
 
         /// <summary>

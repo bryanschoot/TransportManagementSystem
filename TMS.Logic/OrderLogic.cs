@@ -17,7 +17,12 @@ namespace TMS.Logic
         }
         public List<Order> GetAllOrdersById(int id)
         {
-            return this.Repository.GetAllOrdersById(id);
+            List<Order> orders = this.Repository.GetAllOrdersById(id);
+            if (orders.Count <= 0)
+            {
+                throw new NullReferenceException("There are no orders!");
+            }
+            return orders;
         }
 
         public bool CreateOrder(Order model, int id)

@@ -16,7 +16,7 @@ namespace TMS.Repository
 
         public IEnumerable<Vehicle> All()
         {
-            throw new System.NotImplementedException();
+            return this._context.All();
         }
 
         public Vehicle GetById(int id)
@@ -47,6 +47,11 @@ namespace TMS.Repository
         public int Count(Vehicle entity)
         {
             throw new System.NotImplementedException();
+        }
+
+        public bool CreateVehicle(Vehicle vehicle)
+        {
+            return this._context.CreateVehicle(vehicle);
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿@model IEnumerable<TMS.Model.Account>
+﻿@model System.Collections.Generic.IEnumerable<TMS.Model.Vehicle>
 
 @{
-    ViewData["Title"] = "Accounts";
+    ViewData["Title"] = "Vehicles";
 }
 
 <div class="container my-5">
@@ -13,13 +13,13 @@
                     <hr />
                     <div class="row">
                         <div class="col">
-                            <input class="form-control" id="myInput" type="text" placeholder="Search in accounts..">
+                            <input class="form-control" id="myInput" type="text" placeholder="Search in vehicles..">
                         </div>
                     </div>
                     <br />
                     <div class="row">
                         <div class="col">
-                            <a asp-controller="Account" asp-action="Account"><button class="btn btn-outline-dark btn-block btn-lg">New account</button></a>
+                            <a asp-controller="Vehicle" asp-action="Vehicle"><button class="btn btn-outline-dark btn-block btn-lg">New vehicle</button></a>
                         </div>
                     </div>
                 </div>
@@ -34,26 +34,26 @@
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">Email</th>
-                                <th scope="col">Firstname</th>
-                                <th scope="col">Lastname</th>
-                                <th scope="col">Role</th>
+                                <th scope="col">Brand</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Feul</th>
+                                <th scope="col">Space m3</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="myTable">
-                            @if (Model.Count() != 0)
+                            @if (Model != null)
                             {
-                                foreach (var account in Model)
+                                foreach (var vehicle in Model)
                                 {
                                     <tr>
-                                        <td>@account.Email</td>
-                                        <td>@account.FirstName</td>
-                                        <td>@account.LastName</td>
-                                        <td>@account.Role.RoleName</td>
+                                        <td>@vehicle.Brand</td>
+                                        <td>@vehicle.Type</td>
+                                        <td>@vehicle.Fuel</td>
+                                        <td>@vehicle.GetSpace()</td>
                                         <td>
-                                            <a asp-controller="Account" asp-action="EditAccount" asp-route-id="@account.Id">Edit</a>
-                                            <a asp-controller="Account" asp-action="DeleteAccount" asp-route-id="@account.Id">Delete</a>
+                                            <a asp-controller="Vehicle" asp-action="EditVehicle" asp-route-id="@vehicle.Id">Edit</a>
+                                            <a asp-controller="Vehicle" asp-action="DeleteVehicle" asp-route-id="@vehicle.Id">Delete</a>
                                         </td>
                                     </tr>
                                 }
@@ -61,7 +61,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="6" class="text-center">There are no accounts to be diplayed</td>
+                                    <td colspan="6" class="text-center">There are no vehicles to be diplayed</td>
                                 </tr>
                             }
                         </tbody>
