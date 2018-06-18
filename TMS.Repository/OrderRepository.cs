@@ -18,7 +18,7 @@ namespace TMS.Repository
         #region NotImplemented
         public IEnumerable<Order> All()
         {
-            throw new System.NotImplementedException();
+            return this._context.All();
         }
 
         public Order GetById(int id)

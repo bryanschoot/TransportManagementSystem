@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using TMS.Logic.Interface;
 using TMS.Model;
@@ -55,6 +56,18 @@ namespace TMS.Logic
         public int CountAllOrders()
         {
             return this._repository.CountAllOrders();
+        }
+
+        public IEnumerable<Order> GetAllOrders()
+        {
+            IEnumerable<Order> orders = this._repository.All();
+
+            if (!orders.Any())
+            {
+                throw new NullReferenceException("There are no orders.");
+            }
+
+            return orders;
         }
     }
 }

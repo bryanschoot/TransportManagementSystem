@@ -1,0 +1,78 @@
+﻿@model System.Collections.Generic.IEnumerable<TMS.Model.PickOrder>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Pickorders</h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" id="myInput" type="text" placeholder="Search in pickorders..">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <a asp-controller="PickOrder" asp-action="PickOrder"><button class="btn btn-outline-dark btn-block btn-lg">New pickorder</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @Html.Partial("_Message")
+            <div class="card mb-5">
+                <div class="card-body table-responsive">
+                    <h5 class="card-title text-center">All pickorders</h5>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">PickOrdernr</th>
+                                <th scope="col">Space m3</th>
+                                <th scope="col">Amount of orders</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @if (Model != null)
+                            {
+                                foreach (var pickOrder in Model)
+                                {
+                                    <tr>
+                                        <td>@pickOrder.Id</td>
+                                        <td>@pickOrder.GetSpace()</td>
+                                        <td>@pickOrder.AmountOfOrders</td>
+                                        <td>
+                                            <a asp-controller="PickOrder" asp-action="EditPickOrder" asp-route-id="@pickOrder.Id">Edit</a>
+                                            <a asp-controller="PickOrder" asp-action="DeletePickOrder" asp-route-id="@pickOrder.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center">There are no pickorders.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

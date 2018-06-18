@@ -11,5 +11,6 @@ namespace TMS.Logic.Interface
         bool DeleteOrderById(int id);
         bool UpdateOrder(Order order);
         int CountAllOrders();
+        IEnumerable<Order> GetAllOrders();
     }
 }

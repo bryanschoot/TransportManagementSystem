@@ -16,7 +16,7 @@ namespace TMS.Repository
 
         public IEnumerable<PickOrder> All()
         {
-            throw new System.NotImplementedException();
+            return this._context.All();
         }
 
         public PickOrder GetById(int id)

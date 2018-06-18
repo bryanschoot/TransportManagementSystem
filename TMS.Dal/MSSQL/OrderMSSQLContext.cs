@@ -21,7 +21,37 @@ namespace TMS.Dal.MSSQL
 
         public IEnumerable<Order> All()
         {
-            throw new System.NotImplementedException();
+            this._query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate, Address.Country, Address.City, Address.StreetName, Address.StreetNumber, Address.ZipCode FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id INNER JOIN Address ON [Order].AddressId = Address.id WHERE [Order].PickOrderId is null;";
+            List<Order> orders = new List<Order>();
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    foreach (DbDataRecord record in cmd.ExecuteReader())
+                    {
+                        Order order = new Order
+                        {
+                            Id = record.GetInt32(record.GetOrdinal("Id")),
+                            Description = record.GetString(record.GetOrdinal("Description")),
+                            DeliverDate = record.GetDateTime(record.GetOrdinal("Deliverdate")),
+                            Address = new Address
+                            {
+                                Country = record.GetString(record.GetOrdinal("Country")),
+                                City = record.GetString(record.GetOrdinal("City")),
+                                StreetName = record.GetString(record.GetOrdinal("StreetName")),
+                                StreetNumber = record.GetString(record.GetOrdinal("StreetNumber")),
+                                ZipCode = record.GetString(record.GetOrdinal("ZipCode")),
+                            }
+                        };
+                        orders.Add(order);
+                    }
+
+                    return orders;
+                }
+            }
         }
 
         /// <summary>
@@ -220,7 +250,6 @@ namespace TMS.Dal.MSSQL
                     {
                         return true;
                     }
-
                     return false;
                 }
             }

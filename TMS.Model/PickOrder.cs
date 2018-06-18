@@ -8,15 +8,16 @@
         {
         }
 
-        public PickOrder(int id, double lenght, double width, double height, double weight, Vehicle vehicle, List<Order> orders)
+        public PickOrder(int id, double lenght, double width, double height, double weight, Vehicle vehicle, List<Order> orders, int amountOfOrders)
         {
-            this.Id = id;
-            this.Lenght = lenght;
-            this.Width = width;
-            this.Height = height;
-            this.Weight = weight;
-            this.Vehicle = vehicle;
-            this.Orders = orders;
+            Id = id;
+            Lenght = lenght;
+            Width = width;
+            Height = height;
+            Weight = weight;
+            Vehicle = vehicle;
+            Orders = orders;
+            AmountOfOrders = amountOfOrders;
         }
 
         public int Id { get; set; }
@@ -32,5 +33,12 @@
         public Vehicle Vehicle { get; set; }
 
         public List<Order> Orders { get; set; }
+
+        public int AmountOfOrders { get; set; }
+
+        public double GetSpace()
+        {
+            return (this.Lenght / 100) * (this.Width / 100) * (this.Height / 100);
+        }
     }
 }
