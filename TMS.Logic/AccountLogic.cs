@@ -129,6 +129,11 @@ namespace TMS.Logic
             return this._repository.GetAllRoles();
         }
 
+        public IEnumerable<Account> GetAllEmployees()
+        {
+            return this._repository.GetAllEmployees();
+        }
+
         public string CreateHash(string tobehashed)
         {
             string hash = Hash.CreateHash(tobehashed);

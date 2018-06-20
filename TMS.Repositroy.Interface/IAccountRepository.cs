@@ -22,5 +22,6 @@ namespace TMS.Repositroy.Interface
         int CountAllCustomers();
 
         IEnumerable<Role> GetAllRoles();
+        IEnumerable<Account> GetAllEmployees();
     }
 }

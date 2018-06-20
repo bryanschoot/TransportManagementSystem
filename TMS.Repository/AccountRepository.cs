@@ -116,5 +116,10 @@ namespace TMS.Repository
         {
             return this._contex.GetAllRoles();
         }
+
+        public IEnumerable<Account> GetAllEmployees()
+        {
+            return this._contex.GetAllEmployees();
+        }
     }
 }

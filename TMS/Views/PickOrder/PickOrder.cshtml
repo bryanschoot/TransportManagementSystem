@@ -19,7 +19,6 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Orders</h5>
                     <hr />
-                    <input class="form-control" id="myInput" type="text" placeholder="Search in pickorders..">
                     <div class="row">
                         <div class="col">
                             <div class="card-body table-responsive">
@@ -45,20 +44,20 @@
                                                     <input type="hidden" asp-for="@Model.Orders[i].Height" value="@Model.Orders[i].Height">
                                                     <input type="hidden" asp-for="@Model.Orders[i].Weight" value="@Model.Orders[i].Weight">
                                                     <td>
-                                                        <input asp-for="@Model.Orders[i].Id" value="@Model.Orders[i].Id">
+                                                        <input disabled="disabled" asp-for="@Model.Orders[i].Id" value="@Model.Orders[i].Id">
                                                     </td>
                                                     <td>
-                                                        <input asp-for="@Model.Orders[i].Description" value="@Model.Orders[i].Description">
+                                                        <input disabled="disabled" asp-for="@Model.Orders[i].Description" value="@Model.Orders[i].Description">
                                                     </td>
                                                     <td>
-                                                        <input asp-for="@Model.Orders[i].Address.City" value="@Model.Orders[i].Address.City">
+                                                        <input disabled="disabled" asp-for="@Model.Orders[i].Address.City" value="@Model.Orders[i].Address.City">
                                                     </td>
                                                     <td>
-                                                        <input asp-for="@Model.Orders[i].Address.StreetName" value="@Model.Orders[i].Address.StreetName">
-                                                        <input asp-for="@Model.Orders[i].Address.StreetNumber" value="@Model.Orders[i].Address.StreetNumber">
+                                                        <input disabled="disabled" asp-for="@Model.Orders[i].Address.StreetName" value="@Model.Orders[i].Address.StreetName">
+                                                        <input disabled="disabled" asp-for="@Model.Orders[i].Address.StreetNumber" value="@Model.Orders[i].Address.StreetNumber">
                                                     </td>
                                                     <td>
-                                                        <input asp-for="@Model.Orders[i].Address.ZipCode" value="@Model.Orders[i].Address.ZipCode">
+                                                        <input disabled="disabled" asp-for="@Model.Orders[i].Address.ZipCode" value="@Model.Orders[i].Address.ZipCode">
                                                     </td>
                                                 </tr>
                                             }
@@ -82,14 +81,13 @@
             @Html.Partial("_Message")
             <div class="card mb-5">
                 <div class="card-body">
-                    <hr />
                     @{
                         if (Model.SelectedOrders == null)
                         {
                             <h5 class="card-title text-center">Create pickorder</h5>
-                            <form asp-controller="PickOrder" asp-action="CreatePickOrder">
+                            <hr />
+                            <form asp-controller="PickOrder" asp-action="CreatePickOrder" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <input class="form-control" id="myInput2" type="text" placeholder="Search in pickorders..">
                                 <div class="row">
                                     <div class="col">
                                         <div class="card-body table-responsive">
@@ -103,35 +101,7 @@
                                                     <th scope="col">Zip</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody id="tableToAdd" class="form-fix">
-                                                @if (Model.SelectedOrders != null)
-                                                {
-                                                    for (int i = 0; i < Model.SelectedOrders.Count; i++)
-                                                    {
-                                                        <tr id="@Model.SelectedOrders[i].Id" onclick="removeOrder(@Model.SelectedOrders[i].Id)">
-                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Length" value="@Model.SelectedOrders[i].Length">
-                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Width" value="@Model.SelectedOrders[i].Width">
-                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Height" value="@Model.SelectedOrders[i].Height">
-                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Weight" value="@Model.SelectedOrders[i].Weight">
-                                                            <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Id" value="@Model.SelectedOrders[i].Id">
-                                                            </td>
-                                                            <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Description" value="@Model.SelectedOrders[i].Description">
-                                                            </td>
-                                                            <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.City" value="@Model.SelectedOrders[i].Address.City">
-                                                            </td>
-                                                            <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetName" value="@Model.SelectedOrders[i].Address.StreetName">
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetNumber" value="@Model.SelectedOrders[i].Address.StreetNumber">
-                                                            </td>
-                                                            <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.ZipCode" value="@Model.SelectedOrders[i].Address.ZipCode">
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                }
+                                                <tbody id="tableToAdd">
                                                 </tbody>
                                             </table>
                                             <hr />
@@ -145,10 +115,10 @@
                         else
                         {
                             <h5 class="card-title text-center">Update pickorder</h5>
-                            <form asp-controller="PickOrder" asp-action="UpdatePickOrder">
+                            <hr/>
+                            <form asp-controller="PickOrder" asp-action="UpdatePickOrder" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <input type="hidden" asp-for="@Model.Id" value="@Model.Id">
-                                <input class="form-control" id="myInput2" type="text" placeholder="Search in pickorders..">
                                 <div class="row">
                                     <div class="col">
                                         <div class="card-body table-responsive">
@@ -173,20 +143,20 @@
                                                             <input type="hidden" asp-for="@Model.SelectedOrders[i].Height" value="@Model.SelectedOrders[i].Height">
                                                             <input type="hidden" asp-for="@Model.SelectedOrders[i].Weight" value="@Model.SelectedOrders[i].Weight">
                                                             <td>
-                                                                <input class="form-fix" asp-for="@Model.SelectedOrders[i].Id" value="@Model.SelectedOrders[i].Id">
+                                                                <input disabled="disabled"  asp-for="@Model.SelectedOrders[i].Id" value="@Model.SelectedOrders[i].Id">
                                                             </td>
                                                             <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Description" value="@Model.SelectedOrders[i].Description">
+                                                                <input disabled="disabled"  asp-for="@Model.SelectedOrders[i].Description" value="@Model.SelectedOrders[i].Description">
                                                             </td>
                                                             <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.City" value="@Model.SelectedOrders[i].Address.City">
+                                                                <input disabled="disabled"  asp-for="@Model.SelectedOrders[i].Address.City" value="@Model.SelectedOrders[i].Address.City">
                                                             </td>
                                                             <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetName" value="@Model.SelectedOrders[i].Address.StreetName">
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetNumber" value="@Model.SelectedOrders[i].Address.StreetNumber">
+                                                                <input disabled="disabled"  asp-for="@Model.SelectedOrders[i].Address.StreetName" value="@Model.SelectedOrders[i].Address.StreetName">
+                                                                <input disabled="disabled"  asp-for="@Model.SelectedOrders[i].Address.StreetNumber" value="@Model.SelectedOrders[i].Address.StreetNumber">
                                                             </td>
                                                             <td>
-                                                                <input asp-for="@Model.SelectedOrders[i].Address.ZipCode" value="@Model.SelectedOrders[i].Address.ZipCode">
+                                                                <input disabled="disabled"  asp-for="@Model.SelectedOrders[i].Address.ZipCode" value="@Model.SelectedOrders[i].Address.ZipCode">
                                                             </td>
                                                         </tr>
                                                     }
@@ -212,26 +182,6 @@
     $('#datepicker').datepicker({
         uiLibrary: 'bootstrap4'
     });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $("#myInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#tableToRemove tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-            });
-        });
-    });
-
-    $(document).ready(function () {
-        $("#myInput2").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#tableToAdd tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-            });
-        });
-    })
 </script>
 
 @* Adding and removing orders to form *@

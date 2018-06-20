@@ -1,0 +1,217 @@
+﻿@model RideViewModel
+
+<link rel="stylesheet" href="~/css/form.css" />
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Ride</h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col">
+                            <a asp-controller="Ride" asp-action="Rides"><button class="btn btn-outline-dark btn-block btn-lg">Back to rides</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Pickorders</h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col">
+                            <div class="card-body table-responsive">
+                                <table id="" class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">PickOrdernr</th>
+                                            <th scope="col">Amount of orders</th>
+                                            <th scope="col">Length</th>
+                                            <th scope="col">Width</th>
+                                            <th scope="col">Height</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableToRemove">
+                                        @if (Model.PickOrders != null)
+                                        {
+                                            for (int i = 0; i < Model.PickOrders.Count(); i++)
+                                            {
+                                                <tr id="@Model.PickOrders[i].Id" onclick="addOrder(@Model.PickOrders[i].Id)">
+                                                    <td>
+                                                        <input disabled="disabled" asp-for="@Model.PickOrders[i].Id" value="@Model.PickOrders[i].Id">
+                                                    </td>
+                                                    <td>
+                                                        <input disabled="disabled"  asp-for="@Model.PickOrders[i].AmountOfOrders" value="@Model.PickOrders[i].AmountOfOrders">
+                                                    </td>
+                                                    <td>
+                                                        <input disabled="disabled"  asp-for="@Model.PickOrders[i].Lenght" value="@Model.PickOrders[i].Lenght">
+                                                    </td>
+                                                    <td>
+                                                        <input disabled="disabled"  asp-for="@Model.PickOrders[i].Width" value="@Model.PickOrders[i].Width">
+                                                    </td>
+                                                    <td>
+                                                        <input disabled="disabled"  asp-for="@Model.PickOrders[i].Height" value="@Model.PickOrders[i].Height">
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="6" class="text-center">You have zero pickorders</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @Html.Partial("_Message")
+            <div class="card mb-5">
+                <div class="card-body">
+                    @{
+                        if (Model.SelectedPickOrders == null)
+                        {
+                            <h5 class="card-title text-center">Create ride</h5>
+                            <hr />
+                            <form asp-controller="Ride" asp-action="CreateRide" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                
+                                <div class="form-group">
+                                    <label asp-for="RideDate">Deliverdate:</label>
+                                    <input asp-for="RideDate" class="form-control" id="datepicker"/>
+                                    <span asp-validation-for="RideDate" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label>Driver:</label>
+                                        <select asp-for="@Model.SelectedDriver" asp-items="@Model.Accounts" class="form-control removemul"></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <label>Vehicle:</label>
+                                        <select asp-for="@Model.SelectedVehicle" asp-items="@Model.Vehicles" class="form-control"></select>
+                                    </div>
+                                </div>
+
+                                 <div class="row">
+                                     <div class="col">
+                                         <div class="card-body table-responsive">
+                                             <table class="table table-hover table-striped">
+                                                 <thead>
+                                                     <tr>
+                                                         <th scope="col">PickOrdernr</th>
+                                                         <th scope="col">Amount of orders</th>
+                                                         <th scope="col">Length</th>
+                                                         <th scope="col">Width</th>
+                                                         <th scope="col">Height</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody id="tableToAdd"></tbody>
+                                             </table>
+                                             <hr />
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <br />
+                                 <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Create</button>
+                             </form>
+                         }
+                         else
+                         {
+                             <h5 class="card-title text-center">Update Ride</h5>
+                             <hr />
+                             <form asp-controller="Ride" asp-action="UpdateRide" method="post">
+                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                 <input type="hidden" asp-for="@Model.Id" value="@Model.Id">
+                                 <div class="row">
+                                     <div class="col">
+                                         <div class="card-body table-responsive">
+                                             <table class="table table-hover table-striped">
+                                                 <thead>
+                                                     <tr>
+                                                         <th scope="col">Ordernr</th>
+                                                         <th scope="col">Description</th>
+                                                         <th scope="col">City</th>
+                                                         <th scope="col">Street</th>
+                                                         <th scope="col">Zip</th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody id="tableToAdd">
+                                                     @if (Model.SelectedPickOrders != null)
+                                                     {
+                                                         for (int i = 0; i < Model.SelectedPickOrders.Count; i++)
+                                                         {
+                                                             <tr id="@Model.SelectedPickOrders[i].Id" onclick="removeOrder(@Model.SelectedPickOrders[i].Id)">
+                                                                 <td>
+                                                                     <input asp-for="@Model.SelectedPickOrders[i].Id" value="@Model.SelectedPickOrders[i].Id">
+                                                                 </td>
+                                                                 <td>
+                                                                     <input asp-for="@Model.SelectedPickOrders[i].AmountOfOrders" value="@Model.SelectedPickOrders[i].AmountOfOrders">
+                                                                 </td>
+                                                                 <td>
+                                                                     <input asp-for="@Model.SelectedPickOrders[i].Lenght" value="@Model.SelectedPickOrders[i].Lenght">
+                                                                 </td>
+                                                                 <td>
+                                                                     <input asp-for="@Model.SelectedPickOrders[i].Width" value="@Model.SelectedPickOrders[i].Width">
+                                                                 </td>
+                                                                 <td>
+                                                                     <input asp-for="@Model.SelectedPickOrders[i].Height" value="@Model.SelectedPickOrders[i].Height">
+                                                                 </td>
+                                                             </tr>
+                                                         }
+                                                     }
+                                                 </tbody>
+                                             </table>
+                                             <hr />
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <br />
+                                <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Update</button>
+                            </form>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#datepicker').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+</script>
+
+@* Adding and removing orders to form *@
+<script>
+    function addOrder(number) {
+        var row = document.getElementById(number);
+
+        var clone = row.cloneNode(true);
+        clone.onclick = function () { removeOrder(number) };
+        var table = document.getElementById('tableToAdd');
+        row.remove();
+        table.appendChild(clone);
+    }
+
+    function removeOrder(number) {
+        var row = document.getElementById(number);
+        var clone = row.cloneNode(true);
+        clone.onclick = function () { addOrder(number) };
+        var table = document.getElementById('tableToRemove');
+        row.remove();
+        table.appendChild(clone);
+    }
+</script>

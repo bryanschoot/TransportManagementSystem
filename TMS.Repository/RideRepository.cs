@@ -48,5 +48,10 @@ namespace TMS.Repository
         {
             throw new System.NotImplementedException();
         }
+
+        public IEnumerable<Ride> GetAllRides()
+        {
+            return this._context.GetAllRides();
+        }
     }
 }

@@ -25,5 +25,6 @@ namespace TMS.Logic.Interface
 
         IEnumerable<Account> GetAllAccounts();
         IEnumerable<Role> GetAllRoles();
+        IEnumerable<Account> GetAllEmployees();
     }
 }

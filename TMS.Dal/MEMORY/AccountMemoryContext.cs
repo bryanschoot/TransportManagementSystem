@@ -142,5 +142,10 @@ namespace TMS.Dal.MEMORY
         {
             throw new System.NotImplementedException();
         }
+
+        public IEnumerable<Account> GetAllEmployees()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

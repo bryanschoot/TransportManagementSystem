@@ -522,5 +522,31 @@ namespace TMS.Dal.MSSQL
             }
 
         }
+
+        public IEnumerable<Account> GetAllEmployees()
+        {
+            List<Account> accounts = new List<Account>();
+            this._query = "SELECT Account.Id, Account.FirstName, Account.LastName FROM Account INNER JOIN Role ON Account.RoleId = Role.Id WHERE Role.RoleName = 'Employee';";
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    foreach (DbDataRecord record in cmd.ExecuteReader())
+                    {
+                        Account account = new Account()
+                        {
+                            Id = record.GetInt32(record.GetOrdinal("Id")),
+                            FirstName = record.GetString(record.GetOrdinal("FirstName")),
+                            LastName = record.GetString(record.GetOrdinal("LastName")),
+                        };
+                        accounts.Add(account);
+                    }
+                    return accounts;
+                }
+            }
+        }
     }
 }

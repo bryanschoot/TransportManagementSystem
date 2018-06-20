@@ -76,7 +76,7 @@ namespace TMS.Controllers
                     else
                     {
                         TempData["errormessage"] = "Must be atleast 4 orders within a pickorder";
-                        return View("PickOrder", model);
+                        return RedirectToAction("PickOrder", model);
                     }
                 }
                 else
@@ -109,6 +109,7 @@ namespace TMS.Controllers
 
         public IActionResult UpdatePickOrder(PickOrderViewModel model)
         {
+            //TODO can not really remove only add new orders....
             if (ModelState.IsValid)
             {
                 PickOrder pickOrder = model.CopyTo();

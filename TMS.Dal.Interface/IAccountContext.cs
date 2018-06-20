@@ -21,5 +21,6 @@ namespace TMS.Dal.Interface
         int CountAllCustomers();
 
         IEnumerable<Role> GetAllRoles();
+        IEnumerable<Account> GetAllEmployees();
     }
 }

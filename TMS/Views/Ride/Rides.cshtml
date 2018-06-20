@@ -1,0 +1,87 @@
+﻿@model IEnumerable<TMS.Model.Ride>
+
+
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Rides</h5>
+                    <hr />
+                    <div class="row">
+                        <div class="col">
+                            <input class="form-control" id="myInput" type="text" placeholder="Search in rides..">
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col">
+                            <a asp-controller="Ride" asp-action="Ride"><button class="btn btn-outline-dark btn-block btn-lg">New Ride</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            @Html.Partial("_Message")
+            <div class="card mb-5">
+                <div class="card-body table-responsive">
+                    <h5 class="card-title text-center">All rides</h5>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ridenr</th>
+                                <th scope="col">Ride date</th>
+                                <th scope="col">Licence plate</th>
+                                <th scope="col">Amount of pickorders</th>
+                                <th scope="col">Driver</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            @if (Model != null)
+                            {
+                                foreach (var ride in Model)
+                                {
+                                    <tr>
+                                        <td>@ride.Id</td>
+                                        <td>@ride.RideDate</td>
+                                        <td>@ride.Vehicle.LicensePlate</td>
+                                        <td>@ride.AmountOfPickOrders</td>
+                                        <td>@ride.Account.FirstName @ride.Account.LastName</td>
+                                        <td>
+                                            <a asp-controller="Ride" asp-action="EditRide" asp-route-id="@ride.Id">Edit</a>
+                                            <a asp-controller="Ride" asp-action="DeleteRide" asp-route-id="@ride.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center">You have zero Rides</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>

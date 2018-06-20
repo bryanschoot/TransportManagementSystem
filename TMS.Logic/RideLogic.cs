@@ -1,4 +1,6 @@
-﻿using TMS.Logic.Interface;
+﻿using System.Collections.Generic;
+using TMS.Logic.Interface;
+using TMS.Model;
 using TMS.Repositroy.Interface;
 
 namespace TMS.Logic
@@ -10,6 +12,11 @@ namespace TMS.Logic
         public RideLogic(IRideRepository repository)
         {
             this._repository = repository;
+        }
+
+        public IEnumerable<Ride> GetAllRides()
+        {
+            return this._repository.GetAllRides();
         }
     }
 }

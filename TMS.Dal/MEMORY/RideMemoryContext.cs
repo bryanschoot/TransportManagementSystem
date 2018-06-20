@@ -40,5 +40,10 @@ namespace TMS.Dal.MEMORY
         {
             throw new System.NotImplementedException();
         }
+
+        public IEnumerable<Ride> GetAllRides()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
