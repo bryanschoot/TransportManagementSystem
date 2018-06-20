@@ -20,12 +20,22 @@ namespace TMS.Logic
         {
             IEnumerable<PickOrder> pickOrders = this._repository.All();
 
-            if (!pickOrders.Any())
-            {
-                throw new NullReferenceException("There are no pickorders!");
-            }
+            if (!pickOrders.Any()) { throw new NullReferenceException("There are no pickorders!"); }
 
             return pickOrders;
+        }
+
+        public bool CreatePickOrder(PickOrder pickOrder)
+        {
+            if(pickOrder == null) { throw new ArgumentNullException("Pickorder cannot be null"); }
+
+            return this._repository.CreatePickOrder(pickOrder);
+        }
+
+        public PickOrder GetPickOrderById(int id)
+        {
+            if(id <= 0) { throw new Exception("Id cannot be like this.");}
+            return this._repository.GetById(id);
         }
     }
 }

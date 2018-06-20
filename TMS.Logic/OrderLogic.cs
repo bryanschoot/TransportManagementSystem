@@ -44,7 +44,11 @@ namespace TMS.Logic
 
         public bool DeleteOrderById(int id)
         {
-            //TODO no check is account may delete the order with this id
+            Order order = this._repository.GetById(id);
+            if (order.PickOrderId != 0)
+            {
+                throw new Exception("Cannot delete this order it is already picked.");
+            }
             return this._repository.DeleteById(id);
         }
 
@@ -66,7 +70,6 @@ namespace TMS.Logic
             {
                 throw new NullReferenceException("There are no orders.");
             }
-
             return orders;
         }
     }

@@ -21,7 +21,7 @@ namespace TMS.Repository
 
         public PickOrder GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return this._context.GetById(id);
         }
 
         public bool Exists(PickOrder entity)
@@ -47,6 +47,11 @@ namespace TMS.Repository
         public int Count(PickOrder entity)
         {
             throw new System.NotImplementedException();
+        }
+
+        public bool CreatePickOrder(PickOrder pickOrder)
+        {
+            return this._context.CreatePickOrder(pickOrder);
         }
     }
 }

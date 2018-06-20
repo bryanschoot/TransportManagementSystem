@@ -8,7 +8,7 @@
         {
         }
 
-        public Order(int id, string description, DateTime deliverDate, DateTime orderDate, double length, double width, double height, double weight, Address address, Account account)
+        public Order(int id, string description, DateTime deliverDate, DateTime orderDate, double length, double width, double height, double weight, Address address, Account account, int pickOrderId)
         {
             Id = id;
             Description = description;
@@ -20,9 +20,12 @@
             Weight = weight;
             Address = address;
             Account = account;
+            PickOrderId = pickOrderId;
         }
 
         public int Id { get; set; }
+
+        public int PickOrderId { get; set; }
 
         public string Description { get; set; }
 

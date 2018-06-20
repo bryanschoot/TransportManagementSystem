@@ -40,5 +40,10 @@ namespace TMS.Dal.MEMORY
         {
             throw new System.NotImplementedException();
         }
+
+        public bool CreatePickOrder(PickOrder pickOrder)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

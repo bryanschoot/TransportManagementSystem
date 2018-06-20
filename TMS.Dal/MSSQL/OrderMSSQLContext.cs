@@ -21,7 +21,7 @@ namespace TMS.Dal.MSSQL
 
         public IEnumerable<Order> All()
         {
-            this._query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate, Address.Country, Address.City, Address.StreetName, Address.StreetNumber, Address.ZipCode FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id INNER JOIN Address ON [Order].AddressId = Address.id WHERE [Order].PickOrderId is null;";
+            this._query = "SELECT [Order].Id, [Order].Description, [Order].DeliverDate, [Order].Length, [Order].Width, [Order].Height, [Order].Weight,  Address.Country, Address.City, Address.StreetName, Address.StreetNumber, Address.ZipCode FROM [Order] INNER JOIN Account ON [Order].AccountId = Account.Id INNER JOIN Address ON [Order].AddressId = Address.id WHERE [Order].PickOrderId is null;";
             List<Order> orders = new List<Order>();
 
             using (SqlConnection conn = new SqlConnection(this._connectionstring))
@@ -37,6 +37,10 @@ namespace TMS.Dal.MSSQL
                             Id = record.GetInt32(record.GetOrdinal("Id")),
                             Description = record.GetString(record.GetOrdinal("Description")),
                             DeliverDate = record.GetDateTime(record.GetOrdinal("Deliverdate")),
+                            Length = record.GetDouble(record.GetOrdinal("Length")),
+                            Width = record.GetDouble(record.GetOrdinal("Width")),
+                            Height = record.GetDouble(record.GetOrdinal("Height")),
+                            Weight = record.GetDouble(record.GetOrdinal("Weight")),
                             Address = new Address
                             {
                                 Country = record.GetString(record.GetOrdinal("Country")),
@@ -62,7 +66,8 @@ namespace TMS.Dal.MSSQL
         public Order GetById(int id)
         {
             Order order = null;
-            this._query = "SELECT [Order].id as OrderId, [Order].Description, [Order].DeliverDate, [Order].Orderdate, [Order].Length, [Order].Width, [Order].Height, [Order].Weight, [Address].Id as AddressId, [Address].Country, [Address].City, [Address].StreetName, [Address].StreetNumber, [Address].ZipCode, [Account].Id as AccountId FROM [Order] INNER JOIN Address on [Order].AddressId = [Address].Id INNER JOIN Account on [Order].AccountId = [Account].Id WHERE [Order].Id = @Id;";
+            this._query = "SELECT [Order].id as OrderId, [Order].Description, [Order].DeliverDate, [Order].Orderdate, [Order].Length, [Order].Width, [Order].Height, [Order].Weight, [Order].PickOrderId, [Address].Id as AddressId, [Address].Country, [Address].City, [Address].StreetName, [Address].StreetNumber, [Address].ZipCode, [Account].Id as AccountId FROM [Order] INNER JOIN Address on [Order].AddressId = [Address].Id INNER JOIN Account on [Order].AccountId = [Account].Id WHERE [Order].Id = @Id;";
+            int assign = 0;
 
             using (SqlConnection conn = new SqlConnection(this._connectionstring))
             {
@@ -73,6 +78,11 @@ namespace TMS.Dal.MSSQL
 
                     foreach (DbDataRecord record in cmd.ExecuteReader())
                     {
+                        if (!record.IsDBNull(record.GetOrdinal("PickOrderId")))
+                        {
+                            assign = record.GetInt32(record.GetOrdinal("PickOrderId"));
+                        }
+
                         order = new Order
                         {
                             Id = record.GetInt32(record.GetOrdinal("OrderId")),
@@ -83,6 +93,7 @@ namespace TMS.Dal.MSSQL
                             Width = record.GetDouble(record.GetOrdinal("Width")),
                             Height = record.GetDouble(record.GetOrdinal("Height")),
                             Weight = record.GetDouble(record.GetOrdinal("Weight")),
+                            PickOrderId = assign,
 
                             Address = new Address
                             {

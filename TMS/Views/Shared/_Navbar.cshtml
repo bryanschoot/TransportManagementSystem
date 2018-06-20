@@ -31,16 +31,15 @@
                                     }
                                     if (User.IsInRole("Employee") || User.IsInRole("Admin"))
                                     {
-                                        <a asp-area="" asp-controller="PickOrder" asp-action="PickOrders" class="dropdown-item">Pickorders</a>
-                                        <a asp-area="" asp-controller="Ride" asp-action="Rides" class="dropdown-item">Rides</a>
                                         <a asp-area="" asp-controller="Vehicle" asp-action="Vehicles" class="dropdown-item">Vehicles</a>
+                                        <a asp-area="" asp-controller="Ride" asp-action="Rides" class="dropdown-item">Rides</a>
+                                        <a asp-area="" asp-controller="PickOrder" asp-action="PickOrders" class="dropdown-item">Pickorders</a>
                                     }
+                                    <a asp-area="" asp-controller="Order" asp-action="Orders" class="dropdown-item">Orders</a>
                                 }
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Order" asp-action="Orders" class="nav-item nav-link active">Orders</a>
-                        </li>
+
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Account" asp-action="Profile" class="nav-item nav-link active"><b>Hello @User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value).SingleOrDefault()</b></a>
                         </li>

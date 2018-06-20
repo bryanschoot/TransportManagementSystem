@@ -136,13 +136,21 @@ namespace TMS.Controllers
         [HttpGet]
         public IActionResult DeleteOrder(int id)
         {
-            if (this._factory.OrderLogic().DeleteOrderById(id))
+            try
             {
-                TempData["message"] = "Order has been deleted succesfully!";
+                if (this._factory.OrderLogic().DeleteOrderById(id))
+                {
+                    TempData["message"] = "Order has been deleted succesfully!";
+                    return RedirectToAction("Orders", "Order");
+                }
+                TempData["errormessage"] = "Order can not be deleted!";
                 return RedirectToAction("Orders", "Order");
             }
-            TempData["errormessage"] = "Order can not be deleted!";
-            return RedirectToAction("Orders", "Order");
+            catch (Exception e)
+            {
+                TempData["errormessage"] = e.Message;
+                return RedirectToAction("Orders", "Order");
+            }
         }
     }
 }

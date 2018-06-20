@@ -1,4 +1,5 @@
 ﻿@model PickOrderViewModel
+<link rel="stylesheet" href="~/css/form.css"/>
 
 <div class="container my-5">
     <div class="row">
@@ -22,7 +23,7 @@
                     <div class="row">
                         <div class="col">
                             <div class="card-body table-responsive">
-                                <table class="table table-hover table-striped">
+                                <table id="" class="table table-hover table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col">Ordernr</th>
@@ -30,23 +31,34 @@
                                             <th scope="col">City</th>
                                             <th scope="col">Street</th>
                                             <th scope="col">Zip</th>
-                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="myTable">
-                                    @* TODO: Fix this shit plz.. From list in tabel to list in form. And then submit the form with all the added object/items. *@
-                                        @if (Model != null)
+                                    <tbody id="tableToRemove">
+                                        @* TODO: Fix this shit plz.. From list in tabel to list in form. And then submit the form with all the added object/items. *@
+                                        @if (Model.Orders != null)
                                         {
-                                            foreach (var order in Model.Orders)
+                                            for (int i = 0; i < Model.Orders.Count(); i++)
                                             {
-                                                <tr>
-                                                    <td id="order">@order.Id</td>
-                                                    <td>@order.Description</td>
-                                                    <td>@order.Address.City</td>
-                                                    <td>@order.Address.StreetName @order.Address.StreetNumber</td>
-                                                    <td>@order.Address.ZipCode</td>
+                                                <tr id="@Model.Orders[i].Id" onclick="addOrder(@Model.Orders[i].Id)">
+                                                    <input type="hidden" asp-for="@Model.Orders[i].Length" value="@Model.Orders[i].Length">
+                                                    <input type="hidden" asp-for="@Model.Orders[i].Width" value="@Model.Orders[i].Width">
+                                                    <input type="hidden" asp-for="@Model.Orders[i].Height" value="@Model.Orders[i].Height">
+                                                    <input type="hidden" asp-for="@Model.Orders[i].Weight" value="@Model.Orders[i].Weight">
                                                     <td>
-                                                        <a onclick="AddOrder()">Add</a>
+                                                        <input asp-for="@Model.Orders[i].Id" value="@Model.Orders[i].Id">
+                                                    </td>
+                                                    <td>
+                                                        <input asp-for="@Model.Orders[i].Description" value="@Model.Orders[i].Description">
+                                                    </td>
+                                                    <td>
+                                                        <input asp-for="@Model.Orders[i].Address.City" value="@Model.Orders[i].Address.City">
+                                                    </td>
+                                                    <td>
+                                                        <input asp-for="@Model.Orders[i].Address.StreetName" value="@Model.Orders[i].Address.StreetName">
+                                                        <input asp-for="@Model.Orders[i].Address.StreetNumber" value="@Model.Orders[i].Address.StreetNumber">
+                                                    </td>
+                                                    <td>
+                                                        <input asp-for="@Model.Orders[i].Address.ZipCode" value="@Model.Orders[i].Address.ZipCode">
                                                     </td>
                                                 </tr>
                                             }
@@ -70,18 +82,123 @@
             @Html.Partial("_Message")
             <div class="card mb-5">
                 <div class="card-body">
+                    <hr />
                     @{
-                        if (Model.Id == 0)
+                        if (Model.SelectedOrders == null)
                         {
-                            <h5 class="card-title text-center">Create order</h5>
-                            <hr />
+                            <h5 class="card-title text-center">Create pickorder</h5>
                             <form asp-controller="PickOrder" asp-action="CreatePickOrder">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input class="form-control" id="myInput2" type="text" placeholder="Search in pickorders..">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card-body table-responsive">
+                                            <table class="table table-hover table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Ordernr</th>
+                                                    <th scope="col">Description</th>
+                                                    <th scope="col">City</th>
+                                                    <th scope="col">Street</th>
+                                                    <th scope="col">Zip</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="tableToAdd" class="form-fix">
+                                                @if (Model.SelectedOrders != null)
+                                                {
+                                                    for (int i = 0; i < Model.SelectedOrders.Count; i++)
+                                                    {
+                                                        <tr id="@Model.SelectedOrders[i].Id" onclick="removeOrder(@Model.SelectedOrders[i].Id)">
+                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Length" value="@Model.SelectedOrders[i].Length">
+                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Width" value="@Model.SelectedOrders[i].Width">
+                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Height" value="@Model.SelectedOrders[i].Height">
+                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Weight" value="@Model.SelectedOrders[i].Weight">
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Id" value="@Model.SelectedOrders[i].Id">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Description" value="@Model.SelectedOrders[i].Description">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.City" value="@Model.SelectedOrders[i].Address.City">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetName" value="@Model.SelectedOrders[i].Address.StreetName">
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetNumber" value="@Model.SelectedOrders[i].Address.StreetNumber">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.ZipCode" value="@Model.SelectedOrders[i].Address.ZipCode">
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                </tbody>
+                                            </table>
+                                            <hr />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
                                 <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Create</button>
                             </form>
                         }
                         else
                         {
+                            <h5 class="card-title text-center">Update pickorder</h5>
+                            <form asp-controller="PickOrder" asp-action="UpdatePickOrder">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input class="form-control" id="myInput2" type="text" placeholder="Search in pickorders..">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="card-body table-responsive">
+                                            <table class="table table-hover table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col">Ordernr</th>
+                                                    <th scope="col">Description</th>
+                                                    <th scope="col">City</th>
+                                                    <th scope="col">Street</th>
+                                                    <th scope="col">Zip</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="tableToAdd">
+                                                @if (Model.SelectedOrders != null)
+                                                {
+                                                    for (int i = 0; i < Model.SelectedOrders.Count; i++)
+                                                    {
+                                                        <tr id="@Model.SelectedOrders[i].Id" onclick="removeOrder(@Model.SelectedOrders[i].Id)"  >
+                                                            <input class="form-fix" type="hidden" asp-for="@Model.SelectedOrders[i].Length" value="@Model.SelectedOrders[i].Length">
+                                                            <input class="form-fix" type="hidden" asp-for="@Model.SelectedOrders[i].Width" value="@Model.SelectedOrders[i].Width">
+                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Height" value="@Model.SelectedOrders[i].Height">
+                                                            <input type="hidden" asp-for="@Model.SelectedOrders[i].Weight" value="@Model.SelectedOrders[i].Weight">
+                                                            <td>
+                                                                <input class="form-fix" asp-for="@Model.SelectedOrders[i].Id" value="@Model.SelectedOrders[i].Id">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Description" value="@Model.SelectedOrders[i].Description">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.City" value="@Model.SelectedOrders[i].Address.City">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetName" value="@Model.SelectedOrders[i].Address.StreetName">
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.StreetNumber" value="@Model.SelectedOrders[i].Address.StreetNumber">
+                                                            </td>
+                                                            <td>
+                                                                <input asp-for="@Model.SelectedOrders[i].Address.ZipCode" value="@Model.SelectedOrders[i].Address.ZipCode">
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                </tbody>
+                                            </table>
+                                            <hr />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-outline-dark btn-block btn-lg">Update</button>
+                            </form>
                         }
                     }
                 </div>
@@ -100,17 +217,40 @@
     $(document).ready(function () {
         $("#myInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#myTable tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            $("#tableToRemove tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
         });
     });
+
+    $(document).ready(function () {
+        $("#myInput2").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tableToAdd tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    })
 </script>
 
+@* Adding and removing orders to form *@
 <script>
-    function AddOrder() {
-        var id = document.getElementById('order').innerText;
-        console.log(id);
-        alert(id);
+    function addOrder(number) {
+        var row = document.getElementById(number);
+
+        var clone = row.cloneNode(true);
+        clone.onclick = function () { removeOrder(number) };
+        var table = document.getElementById('tableToAdd');
+        row.remove();
+        table.appendChild(clone);
+    }
+
+    function removeOrder(number) {
+        var row = document.getElementById(number);
+        var clone = row.cloneNode(true);
+        clone.onclick = function () { addOrder(number) };
+        var table = document.getElementById('tableToRemove');
+        row.remove();
+        table.appendChild(clone);
     }
 </script>
