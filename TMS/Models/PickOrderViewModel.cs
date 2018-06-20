@@ -15,6 +15,7 @@ namespace TMS.Models
 
         public PickOrderViewModel(IEnumerable<Order> orders, PickOrder pickOrder)
         {
+            this.Id = pickOrder.Id;
             this.Orders = (IList<Order>) orders;
             this.SelectedOrders = (IList<Order>) pickOrder.Orders;
         }

@@ -147,6 +147,7 @@
                             <h5 class="card-title text-center">Update pickorder</h5>
                             <form asp-controller="PickOrder" asp-action="UpdatePickOrder">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="@Model.Id" value="@Model.Id">
                                 <input class="form-control" id="myInput2" type="text" placeholder="Search in pickorders..">
                                 <div class="row">
                                     <div class="col">

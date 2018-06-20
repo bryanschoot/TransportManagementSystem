@@ -37,5 +37,19 @@ namespace TMS.Logic
             if(id <= 0) { throw new Exception("Id cannot be like this.");}
             return this._repository.GetById(id);
         }
+
+        public bool UpdatePickOrder(PickOrder pickOrder)
+        {
+            if(pickOrder == null) { throw new ArgumentNullException("PickOrder cannot be null"); }
+
+            return this._repository.Update(pickOrder);
+        }
+
+        public bool DeletePickOrer(int id)
+        {
+            if(id <= 0 ){ throw new ArgumentNullException("Id of the pickorder cannot be null"); }
+
+            return this._repository.DeletePickOrder(id);
+        }
     }
 }

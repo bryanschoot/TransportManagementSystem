@@ -36,7 +36,7 @@ namespace TMS.Repository
 
         public bool Update(PickOrder entity)
         {
-            throw new System.NotImplementedException();
+            return this._context.Update(entity);
         }
 
         public bool Delete(PickOrder entity)
@@ -52,6 +52,11 @@ namespace TMS.Repository
         public bool CreatePickOrder(PickOrder pickOrder)
         {
             return this._context.CreatePickOrder(pickOrder);
+        }
+
+        public bool DeletePickOrder(int id)
+        {
+            return this._context.DeletePickOrder(id);
         }
     }
 }

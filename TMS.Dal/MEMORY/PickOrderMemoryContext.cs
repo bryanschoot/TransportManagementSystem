@@ -45,5 +45,10 @@ namespace TMS.Dal.MEMORY
         {
             throw new System.NotImplementedException();
         }
+
+        public bool DeletePickOrder(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

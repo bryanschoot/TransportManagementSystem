@@ -246,7 +246,6 @@ namespace TMS.Dal.MSSQL
 
         public bool DeleteById(int id)
         {
-            //So not safe
             this._query = "DELETE FROM [Order] WHERE [Order].Id = @id;";
 
             using (SqlConnection conn = new SqlConnection(this._connectionstring))

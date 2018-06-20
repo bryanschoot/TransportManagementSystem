@@ -126,7 +126,32 @@ namespace TMS.Dal.MSSQL
 
         public bool Update(PickOrder entity)
         {
-            throw new System.NotImplementedException();
+            this._query = "UPDATE PickOrder SET Length = @Length, Width = @Width, Height = @Height, Weight = @Weight WHERE PickOrder.Id = @Id";
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    cmd.Parameters.AddWithValue("@Id", entity.Id);
+                    cmd.Parameters.AddWithValue("@Length", entity.Lenght);
+                    cmd.Parameters.AddWithValue("@Width", entity.Width);
+                    cmd.Parameters.AddWithValue("@Height", entity.Height);
+                    cmd.Parameters.AddWithValue("@Weight", entity.Weight);
+
+                    int count = cmd.ExecuteNonQuery();
+
+                    if (count > 0)
+                    {
+                        return InsertIntoOrder(entity, entity.Id);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
         }
 
         public bool Delete(PickOrder entity)
@@ -164,6 +189,27 @@ namespace TMS.Dal.MSSQL
                     {
                         return false;
                     }
+                }
+            }
+        }
+
+        public bool DeletePickOrder(int id)
+        {
+            this._query = "DELETE FROM [PickOrder] WHERE [PickOrder].Id = @id;";
+
+            using (SqlConnection conn = new SqlConnection(this._connectionstring))
+            {
+                using (SqlCommand cmd = new SqlCommand(this._query, conn))
+                {
+                    conn.Open();
+
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        return true;
+                    }
+                    return false;
                 }
             }
         }

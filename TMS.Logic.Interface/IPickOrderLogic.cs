@@ -8,5 +8,7 @@ namespace TMS.Logic.Interface
         IEnumerable<PickOrder> GetAllPickOrders();
         bool CreatePickOrder(PickOrder pickOrder);
         PickOrder GetPickOrderById(int id);
+        bool UpdatePickOrder(PickOrder pickOrder);
+        bool DeletePickOrer(int id);
     }
 }
